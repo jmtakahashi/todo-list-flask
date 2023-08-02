@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block pagetitle %}My Todo List{% endblock %}{%
+block pagecontent %} {% if g.user %}
+
+<h1>Todo List</h1>
+<form id="todo-form" method="POST">
+  {{ todo_form.hidden_tag() }} {% for field in todo_form if
+  field.widget.input_type != 'hidden' %}
+
+  <div>
+    {{ field.label }} {{ field }} {% for error in field.errors %}
+    <div>
+      <span class="error">{{ error}}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endfor %}
+  <button type="submit">Add Todo</button>
+</form>
+
+<!-- todo list table -->
+{% if todos %}
+<table id="todoList">
+  <thead>
+    Todo List
+  </thead>
+  <tbody>
+    {% for todo in todos %}
+    <tr id="{{ todo.id }}">
+      <td>
+        <input type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" />
+      </td>
+      <td>{{ todo.todo }}</td>
+      <td>
+        <button class="todo__editBtn" data-id="{{ todo.id }}">Edit</button>
+      </td>
+      <td>
+        <button class="todo__deleteBtn" data-id="{{ todo.id }}">Delete</button>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endif %} {% else %}
+
+<form id="login-form" method="POST">
+  {{ login_form.hidden_tag() }} {% for field in login_form if
+  field.widget.input_type != 'hidden' %}
+
+  <div>
+    {{ field.label }} {{ field }} {% for error in field.errors %}
+    <div>
+      <span class="error">{{ error}}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endfor %}
+  <button type="submit">Login</button>
+</form>
+{% endif %} {% endblock %}

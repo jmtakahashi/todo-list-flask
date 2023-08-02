@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/index.css" />
+    <title>{% block pagetitle %}{% endblock %}</title>
+  </head>
+  <body>
+    <div class="main">
+      <header>
+        <nav>
+          <ul>
+            <a href="/signout">Signout</a>
+          </ul>
+        </nav>
+      </header>
+      <main>
+        <section>
+          <div class="flashMessages">
+            {% for category,msg in get_flashed_messages(with_categories=true) %}
+            <p class="flash {{ category }}">{{ msg }}</p>
+            {% endfor %}
+          </div>
+          <div class="mainContent">{% block pagecontent %}{% endblock %}</div>
+        </section>
+      </main>
+      <footer>
+        <p class="credit">
+          <a href="https://www.whoisjaytee.com">WhoIsJaytee.com</a>
+        </p>
+      </footer>
+    </div>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/static/js/index.js"></script>
+  </body>
+</html>

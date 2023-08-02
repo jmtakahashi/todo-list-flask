@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block pagetitle %}My Todo List{% endblock %} {%
+block pagecontent %} {% if g.user %}
+<h1>Todo's go here</h1>
+{% else %}
+
+<form id="ml__login-form" method="POST">
+  {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+  'hidden' %}
+
+  <div>
+    {{ field.label }} {{ field }} {% for error in field.errors %}
+    <div>
+      <span class="error">{{ error}}</span>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% endfor %}
+  <button type="submit">Signup</button>
+</form>
+{% endif %} {% endblock %}
