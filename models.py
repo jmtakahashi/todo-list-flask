@@ -76,15 +76,17 @@ class User(db.Model):
 
         # db.commit() is done in app.py
 
+        # return the user
         return user
 
     @classmethod
     def authenticate(cls, username, password):
         """Validate that user exists and password is correct."""
 
-        # return the user if valid, else return false
+        # try to get our user based on username
         user = User.query.filter_by(username=username).first()
 
+        # if a user is returned and they password provided matches, return the user
         if user and bcrypt.check_password_hash(user.password, password):
             return user
         else:

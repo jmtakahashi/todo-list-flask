@@ -1,21 +1,17 @@
 import os
-import json
 
 from termcolor import colored
 
-from flask import Flask, render_template, request, redirect, flash, jsonify
-from flask import session, g
+from flask import Flask, render_template, request, redirect, flash, jsonify, session, g
 from sqlalchemy.exc import IntegrityError
 
 # import text so we can use fstrings in our filter/sort queries
 from sqlalchemy.sql import text
 
-
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 
 from forms import TodoAddForm, LoginForm, UserAddForm
-
 from models import db, connect_db, Todo, User
 
 
@@ -31,12 +27,12 @@ app.app_context().push()
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
 app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
+	os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 
 ###############################################################################
@@ -57,125 +53,135 @@ CURR_USER_KEY = "curr_user"
 
 @app.before_request
 def add_user_to_g():
-    """If we're logged in, add curr user to Flask global."""
+	"""If we're logged in, add curr user to Flask global."""
 
-    # if there is session["curr_user"] exists then add it to our Flask "g" global
-    if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
+	# if there is session["curr_user"] exists then add it to our Flask "g" global
+	if CURR_USER_KEY in session:
+		g.user = User.query.get(session[CURR_USER_KEY])
 
-    else:
-        g.user = None
+	else:
+		g.user = None
 
 
 ###############################################################################
 # login, logout, signup
 
 def do_login(user):
-    """Log in user."""
+	"""Log in user."""
 
-    session[CURR_USER_KEY] = user.username
+	session[CURR_USER_KEY] = user.username
 
 
 def do_logout():
-    """Logout user."""
+	"""Logout user."""
 
-    # on logout, if session["curr_user"] exists, del from session
-    if CURR_USER_KEY in session:
-        del session[CURR_USER_KEY]
+	# on logout, if session["curr_user"] exists, del from session
+	if CURR_USER_KEY in session:
+		del session[CURR_USER_KEY]
 
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
-    """Handle user signup.
+	"""Display signup form and Handle user signup."""
 
-    Create new user and add to DB. Redirect to /home with new user logged in.
+	form = UserAddForm()
 
-    If form not valid, present form.
+	if form.validate_on_submit():
+		# if form is valid and submitted try to add our user
+		try:
+			# send our user info to be registered
+			u = User.signup(
+				username=form.username.data,
+				password=form.password.data,
 
-    If the there already is a user with that username: flash message and re-present form.
-    """
+			)
 
-    form = UserAddForm()
+			# if there's an error in the above method, the except will be thrown
 
-    if form.validate_on_submit():
-        try:
-            # send our user info to be registered
-            u = User.signup(
-                username=form.username.data,
-                password=form.password.data,
+			# the .signup() method in the model will add our user to the session
 
-            )
+			# commit our added user
+			db.session.commit()
 
-            # if there's an error in the above method, the except will be thrown
+			# after db.session.commit() the user will contain the id from our db
+			# do_login() just adds the user to the current session
+			do_login(u)
 
-            # commit our added user
-            db.session.commit()
+		except IntegrityError as exc:
+			flash("Username already exists!", 'danger')
+			return render_template('/signup.html', form=form)
 
-            # after db.session.commit() the user will contain the id from our db
-            do_login(u)
+		# after we do_login() we redirect to index again, but add_user_to_g() will
+		# run and we will have g.user when we redirect to the index page.
+		return redirect('/')
 
-        except IntegrityError as exc:
-
-            flash("Username already exists!", 'danger')
-            return render_template('/signup.html', form=form)
-
-        return redirect('/')
-
-    return render_template('signup.html', form=form)
+	# if form not validated just display the template
+	return render_template('signup.html', form=form)
 
 
 ###############################################################################
-# index route login, todos/addTodo
+# index route - login, todos/addTodo
 
 @app.route("/", methods=["GET", "POST"])
 def home_page():
-    """The home page.  If user is not logged in, show login form."""
+	"""The home page.  If user is not logged in, show login form, else show todos."""
 
-    login_form = LoginForm()
-    todo_form = TodoAddForm()
+	login_form = LoginForm()
+	todo_form = TodoAddForm()
 
-    # validatiion for our login_form
-    if login_form.validate_on_submit():
-        try:
-            # attempt authentication
-            u = User.authenticate(login_form.username.data,
-                                  login_form.password.data)
+	if login_form.validate_on_submit():
+		try:
+			# attempt authentication. we will get back our user or False
+			u = User.authenticate(login_form.username.data,
+								  login_form.password.data)
 
-            if u:
-                # login our user
-                do_login(u)
+			# is u comes back with data, login our user.
+			# if u comes back with False, set a flash message
+			if u:
+				do_login(u)
 
-            return redirect("/")
+			else:
+				flash("Try again...", 'danger')
 
-        except IntegrityError as exc:
+		except IntegrityError as exc:
+			# if an error occurs, set a flash message
+			flash("Try again...", 'danger')
+		
+		# either way, we need to redirect the user to "/"
+		return redirect("/")
 
-            flash("Try again...", 'danger')
-            return redirect("/")
+	if todo_form.validate_on_submit():
+		try:
+			# we could utilize the add_todo class method to refactor,
+			# but for now we leave everything here to match our api routes.
 
-    # validatiion for our todo_form
-    if todo_form.validate_on_submit():
-        try:
-            # attempt add our todo
-            todo = Todo.add_todo(todo_form.todo.data)
+			# create our new todo instance
+			new_todo = Todo(todo=todo_form.todo.data)
 
-            if todo:
-                # commit our added todo
-                db.session.commit()
+			# add our new todo to the session
+			db.session.add(new_todo)
 
-            return redirect("/")
+			# commit the new todo
+			db.session.commit()
 
-        except IntegrityError as exc:
+		except IntegrityError as exc:
+			flash("Please try adding the todo again.", "danger")
+			
+		# either way, we need to reload the page, but we'll have flash messages
+		return redirect("/")
 
-            flash("Please try adding the todo again.", "danger")
-            return redirect("/")
+	# initialize a var so we can pass it to the template (python scope issue)
+	todos = {}
 
-    # if user is logged in, get all our todos and pass to index.html
-    todos = {}
+	# this is additional security to ensure no todos are passed w/o logging in.
+	# if we don't check that user is logged in first and simply got all todos,
+	# we wouldn't see them on the front-end because we also check using jinja
+	# but the todos arg would still be passed to the index.html view.
+	# this stops Flask from sending any todos if no user is logged in.
+	if CURR_USER_KEY in session:
+		todos = Todo.query.all()
 
-    if CURR_USER_KEY in session:
-        todos = Todo.query.all()
-
-    return render_template('index.html', login_form=login_form, todo_form=todo_form, todos=todos)
+	return render_template('index.html', login_form=login_form, todo_form=todo_form, todos=todos)
 
 
 ###############################################################################
@@ -184,112 +190,116 @@ def home_page():
 # get todos
 @app.route("/api/todos", methods=["GET"])
 def get_todos():
-    """Get all todos."""
+	"""Get all todos."""
 
-    todos = Todo.query.all()
+	todos = Todo.query.all()
 
-    # if no todos found, respond with message
-    if len(todos) == 0:
-        resp = jsonify(message="no todos found")
-        return (resp)
+	# if no todos found, respond with message
+	if len(todos) == 0:
+		resp = jsonify(message="no todos found")
+		return (resp)
 
-    data = [todo.serialize() for todo in todos]
-    resp = jsonify(todos=data)
-    return (resp)
+	data = [todo.serialize() for todo in todos]
+	resp = jsonify(todos=data)
+	return (resp)
 
 
 # add a todo
 @ app.route("/api/todos", methods=["POST"])
 def add_todo():
-    """Add a todo. Returns the newly added todo."""
+	"""Add a todo. Returns the newly added todo."""
 
-    # attempt to get our data from the post request
-    data = request.json.get("todo")
+	# attempt to get our data from the post request
+	data = request.json.get("todo")
 
-    # if the data we need is not in the request, throw an error
-    if not data:
-        resp = jsonify(message="Missing required data")
-        return (resp, 400)
+	# if the data we need is not in the request, throw an error
+	if not data:
+		resp = jsonify(message="Missing required data")
+		return (resp, 400)
 
-    # if data is there, try to add to the db
-    try:
-        new_todo = Todo(todo=data)
+	# if data is there, try to add to the db
+	try:
+		new_todo = Todo(todo=data)
 
-        db.session.add(new_todo)
+		db.session.add(new_todo)
 
-        db.session.commit()
+		db.session.commit()
 
-        data = new_todo.serialize()
-        resp = jsonify(todo=data)
-        return (resp, 201)
+		# serialize the todo (which now contains "id" and "done" status), 
+		# create our resp and return
+		data = new_todo.serialize()
+		resp = jsonify(todo=data)
+		return (resp, 201)
 
-    except:
-        resp = jsonify(message="Todo not created")
-        return (resp, 400)
+	except:
+		resp = jsonify(message="Todo not created")
+		return (resp, 400)
 
 
 # get a single todo
 @ app.route("/api/todos/<int:id>", methods=["GET"])
 def get_todo(id):
-    """Get a single todo by id."""
+	"""Get a single todo by id."""
 
-    try:
-        result = Todo.query.get_or_404(id)
+	try:
+		# get our todo.  if not found, the except block will run
+		todo = Todo.query.get_or_404(id)
 
-        data = result.serialize()
+		# serialize the todo, create our resp and return
+		data = todo.serialize()
+		resp = jsonify(todo=data)
+		return (resp)
 
-        resp = jsonify(todo=data)
-        return (resp)
-
-    except:
-        resp = jsonify(message="todo not found")
-        return (resp, 404)
+	except:
+		resp = jsonify(message="todo not found")
+		return (resp, 404)
 
 
 # edit a todo
 @ app.route("/api/todos/<int:id>", methods=["PATCH"])
 def edit_todo(id):
-    """Edit a single todo by id. Returns the edited todo."""
+	"""Edit a single todo by id. Returns the edited todo."""
 
-    try:
-        # get our
-        todo = Todo.query.get_or_404(id)
+	try:
+		# get our todo.  if not found, the except block will run
+		todo = Todo.query.get_or_404(id)
 
-        # update our todo with new data
-        todo.todo = request.json.get("todo", todo.todo)
-        todo.done = request.json.get("done", todo.done)
+		# update our todo with new data, giving default options if the data
+		# doesn't exist in the json of the request
+		todo.todo = request.json.get("todo", todo.todo)
+		todo.done = request.json.get("done", todo.done)
 
-        db.session.commit()
+		db.session.commit()
 
-        data = todo.serialize()
+		# serialize the todo, create our resp and return
+		data = todo.serialize()
+		resp = jsonify(todo=data)
+		return (resp)
 
-        resp = jsonify(todo=data)
-        return (resp, 201)
-
-    except:
-        resp = jsonify(message="an error occured")
-        return (resp, 404)
+	except:
+		resp = jsonify(message="an error occured")
+		return (resp, 404)
 
 
 # delete a todo route #
 @ app.route("/api/todos/<id>", methods=["DELETE"])
 def delete_todo(id):
-    """Delete a single todo by id."""
+	"""Delete a single todo by id."""
 
-    try:
-        # below we delete the item in sqlalchemy, but we need db.session.commit()
-        todo = Todo.query.get_or_404(id)
+	try:
+		# get our todo.  if not found, the except block will run
+		todo = Todo.query.get_or_404(id)
 
-        db.session.delete(todo)
+		db.session.delete(todo)
 
-        db.session.commit()
+		db.session.commit()
 
-        resp = jsonify(deleted=id)
-        return (resp)
+		resp = jsonify(deleted=id)
+		return (resp)
 
-    except:
-        resp = jsonify(message="an error occured")
-        return (resp, 404)
+	except:
+		resp = jsonify(message="an error occured")
+		return (resp, 404)
 
 
 ###############################################################################

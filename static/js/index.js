@@ -1,5 +1,3 @@
-// import axios from "axios";
-
 const BASE_URL = "http://localhost:5000";
 
 deleteBtns = document.querySelectorAll(".todo__deleteBtn");
