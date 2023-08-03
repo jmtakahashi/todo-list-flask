@@ -23,6 +23,7 @@ const doneHandler = async (e) => {
 // handle the delete button click
 const deleteHandler = async (e) => {
   e.preventDefault();
+
   const id = e.target.dataset.id;
 
   // our tr will have an id attribute

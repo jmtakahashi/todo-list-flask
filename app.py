@@ -15,8 +15,8 @@ from forms import TodoAddForm, LoginForm, UserAddForm
 from models import db, connect_db, Todo, User
 
 
-cors = CORS()
 app = Flask(__name__)
+cors = CORS(app)
 
 # blow line necessary to run (https://stackoverflow.com/a/74364913/7207125)
 app.app_context().push()
@@ -28,10 +28,21 @@ app.app_context().push()
 # if not set there, use development local db.
 app.config['SQLALCHEMY_DATABASE_URI'] = (
 	os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
+
+# sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
+
+# debug toolbar
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+# wtforms secrect key
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+
+# address warning in the browser console
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = 'True'
 # toolbar = DebugToolbarExtension(app)
 
 
