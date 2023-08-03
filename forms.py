@@ -9,8 +9,8 @@ class TodoAddForm(FlaskForm):
     """Form for adding todos."""
 
     todo = StringField('New Todo', validators=[DataRequired()])
-    done = HiddenField('Done?', default=False, validators=[
-        DataRequired()])
+    # done = HiddenField('Done?', default=False, validators=[
+    #     DataRequired()])
 
 
 class LoginForm(FlaskForm):

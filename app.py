@@ -118,6 +118,14 @@ def signup():
 	# if form not validated just display the template
 	return render_template('signup.html', form=form)
 
+@app.route('/logout', methods=["GET"])
+def logout():
+	"""Logout from app."""
+
+	do_logout()
+
+	return redirect("/")
+
 
 ###############################################################################
 # index route - login, todos/addTodo

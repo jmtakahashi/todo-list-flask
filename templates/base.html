@@ -7,28 +7,22 @@
     <title>{% block pagetitle %}{% endblock %}</title>
   </head>
   <body>
-    <div class="main">
-      <header>
-        <nav>
-          <ul>
-            <a href="/signout">Signout</a>
-          </ul>
-        </nav>
-      </header>
+    <div class="mainContainer">
+      {% block header %}{% endblock %}
       <main>
-        <section>
+        <section class="main">
           <div class="flashMessages">
             {% for category,msg in get_flashed_messages(with_categories=true) %}
-            <p class="flash {{ category }}">{{ msg }}</p>
+            <span class="flash {{ category }}">{{ msg }}</span>
             {% endfor %}
           </div>
           <div class="mainContent">{% block pagecontent %}{% endblock %}</div>
         </section>
       </main>
       <footer>
-        <p class="credit">
-          <a href="https://www.whoisjaytee.com">WhoIsJaytee.com</a>
-        </p>
+        <a class="credit" href="https://www.whoisjaytee.com" target="_blank"
+          >WhoIsJaytee.com</a
+        >
       </footer>
     </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
