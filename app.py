@@ -18,7 +18,7 @@ from models import db, connect_db, Todo, User
 app = Flask(__name__)
 cors = CORS(app)
 
-# blow line necessary to run (https://stackoverflow.com/a/74364913/7207125)
+# below line necessary to run seed.py (https://stackoverflow.com/a/74364913/7207125)
 app.app_context().push()
 
 ###############################################################################
