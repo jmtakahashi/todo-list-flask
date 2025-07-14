@@ -13,7 +13,7 @@ class TodoAddForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login form."""
 
-    email = EmailField('Email', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6)])
 
@@ -22,6 +22,6 @@ class UserAddForm(FlaskForm):
     """User add form."""
 
     username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6)])
