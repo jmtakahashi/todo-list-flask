@@ -20,12 +20,13 @@ class User(db.Model):
 
     __tablename__ = "users"
 
-    username = db.Column(db.Text, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    username = db.Column(db.Text, nullable=False)
     email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f"<User {self.username} {self.email}>"
+        return f"<User {self.id} {self.username} {self.email}>"
 
     @classmethod
     def signup(cls, username, email, password):
@@ -71,10 +72,10 @@ class Todo(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     todo = db.Column(db.Text, nullable=False)
     date_added = db.Column(db.Text, nullable=False, default=datetime.now())
-    done = db.Column(db.Boolean, nullable=False, default=False)
+    complete = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"<Todo {self.id} todo={self.todo} done={self.done}>"
+        return f"<Todo owner={self.user_id} todo={self.todo} date_added={self.date_added} complete={self.complete}>"
 
     def serialize(self):
         """Serialze a todo SQLAlchemy obj to dict."""
