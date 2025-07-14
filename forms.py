@@ -1,16 +1,13 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, HiddenField, BooleanField, SelectField, DateField, RadioField
+from wtforms import StringField, PasswordField
 
-from wtforms.validators import DataRequired, Email, Length, Optional
-import email_validator
+from wtforms.validators import DataRequired, Email, Length
 
 
 class TodoAddForm(FlaskForm):
     """Form for adding todos."""
 
     todo = StringField('New Todo', validators=[DataRequired()])
-    # done = HiddenField('Done?', default=False, validators=[
-    #     DataRequired()])
 
 
 class LoginForm(FlaskForm):
@@ -25,5 +22,6 @@ class UserAddForm(FlaskForm):
     """User add form."""
 
     username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email])
     password = PasswordField('Password', validators=[
                              DataRequired(), Length(min=6)])
