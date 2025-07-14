@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
+from datetime import datetime
+
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
@@ -11,80 +13,38 @@ def connect_db(app):
 
 
 ###############################################################################
-# Todo class
-
-class Todo(db.Model):
-    """Todo model"""
-
-    __tablename__ = "todos"
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    todo = db.Column(db.Text, nullable=False)
-    done = db.Column(db.Boolean, nullable=False, default=False)
-
-    def __repr__(self):
-        return f"<Todo {self.id} todo={self.todo} done={self.done}>"
-
-    @classmethod
-    def add_todo(cls, todo):
-        """Create a new todo."""
-
-        todo = Todo(todo=todo, done=False)
-
-        # add our todo to the session
-        db.session.add(todo)
-
-        # db.commit() is done in app.py
-
-        return todo
-
-    def serialize(self):
-        """Serialze a todo SQLAlchemy obj to dict."""
-
-        return {
-            "id": self.id,
-            "todo": self.todo,
-            "done": self.done
-        }
-
-
-###############################################################################
 # User class
 
 class User(db.Model):
     """User model"""
 
     __tablename__ = "users"
+
     username = db.Column(db.Text, primary_key=True)
+    email = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
     def __repr__(self):
-        return f"<User {self.username}>"
+        return f"<User {self.username} {self.email}>"
 
     @classmethod
-    def signup(cls, username, password):
+    def signup(cls, username, email, password):
         """Create a new user exists and password is correct."""
 
         # hash our users password with bcrypt
         hashed = bcrypt.generate_password_hash(password)
         hashed_password = hashed.decode("utf8")
 
-        # create our user
-        user = User(username=username, password=hashed_password)
+        user = User(username=username, email=email, password=hashed_password)
 
-        # add our user to the session
-        db.session.add(user)
-
-        # db.commit() is done in app.py
-
-        # return the user
         return user
 
     @classmethod
-    def authenticate(cls, username, password):
+    def authenticate(cls, email, password):
         """Validate that user exists and password is correct."""
 
-        # try to get our user based on username
-        user = User.query.filter_by(username=username).first()
+        # try to get our user based on email
+        user = User.query.filter_by(email=email).first()
 
         # if a user is returned and they password provided matches, return the user
         if user and bcrypt.check_password_hash(user.password, password):
@@ -97,3 +57,32 @@ class User(db.Model):
         hashed = bcrypt.generate_password_hash(password)
         hashed_pwd = hashed.decode("utf8")
         return hashed_pwd
+
+
+###############################################################################
+# Todo class
+
+class Todo(db.Model):
+    """Todo model"""
+
+    __tablename__ = "todos"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    todo = db.Column(db.Text, nullable=False)
+    date_added = db.Column(db.Text, nullable=False, default=datetime.now())
+    done = db.Column(db.Boolean, nullable=False, default=False)
+
+    def __repr__(self):
+        return f"<Todo {self.id} todo={self.todo} done={self.done}>"
+
+    def serialize(self):
+        """Serialze a todo SQLAlchemy obj to dict."""
+
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "todo": self.todo,
+            "date_added": self.date_added,
+            "done": self.done
+        }
