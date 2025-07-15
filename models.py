@@ -47,14 +47,15 @@ class User(db.Model):
     def authenticate(cls, email, password):
         """Validate that user exists and password is correct."""
 
+        print("")
+        print("*******************")
+        print(email)
+        print(password)
+        print("*******************")
+        print("")
+
         # try to get our user based on email
         user = User.query.filter_by(email=email).first()
-
-        print("")
-        print("*******************")
-        print(user)
-        print("*******************")
-        print("")
 
         # if a user is returned and they password provided matches, return the user
         if user and bcrypt.check_password_hash(user.password, password):
