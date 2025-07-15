@@ -50,6 +50,12 @@ class User(db.Model):
         # try to get our user based on email
         user = User.query.filter_by(email=email).first()
 
+        print("")
+        print("*******************")
+        print(user)
+        print("*******************")
+        print("")
+
         # if a user is returned and they password provided matches, return the user
         if user and bcrypt.check_password_hash(user.password, password):
             return user

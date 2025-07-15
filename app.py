@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 # import text so we can use fstrings in our filter/sort queries
 from sqlalchemy.sql import text
 
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 
 from forms import TodoAddForm, LoginForm, UserAddForm
@@ -49,7 +49,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 # app.config['SESSION_COOKIE_SECURE'] = 'True'
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 
 ###############################################################################
