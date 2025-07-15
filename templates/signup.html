@@ -1,21 +1,24 @@
-{% extends 'base.html' %} {% block pagetitle %}My Todo List{% endblock %} {%
-block pagecontent %} {% if g.user %}
-<h1>Todo's go here</h1>
-{% else %}
+{% extends 'base.html' %}
 
-<form id="ml__login-form" method="POST">
-  {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
-  'hidden' %}
+{% block pagetitle %}Signup{% endblock %}
 
-  <div>
-    {{ field.label }} {{ field }} {% for error in field.errors %}
-    <div>
-      <span class="error">{{ error}}</span>
+{% block pagecontent %}
+  <h2 class='pageTitle'>Create an Account</h2>
+  <form id="ml__login-form" method="POST">
+    {{ form.hidden_tag() }}
+    {% for field in form if field.widget.input_type != 'hidden' %}
+
+    <div class='formItem'>
+      {{ field.label }}
+      {{ field }}
+      {% for error in field.errors %}
+        <div>
+          <span class="error">{{ error}}</span>
+        </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
 
-  {% endfor %}
-  <button type="submit">Signup</button>
-</form>
-{% endif %} {% endblock %}
+    {% endfor %}
+    <button type="submit">Signup</button>
+  </form>
+{% endblock %}

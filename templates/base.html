@@ -4,27 +4,58 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/static/css/index.css" />
-    <title>{% block pagetitle %}{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+
+    <title>My Todo List | {% block pagetitle %}{% endblock %}</title>
   </head>
   <body>
-    <div class="mainContainer">
-      {% block header %}{% endblock %}
-      <main>
+      <header>
+        <h1 class="logo">TodoList</h1>
+        <nav>
+          <ul class="nav">
+            {% if g.user %}
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="/">Login</a>
+              </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link" href="/signup">Signup</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      
+      <main class='mainContainer'>
         <section class="main">
           <div class="flashMessages">
             {% for category,msg in get_flashed_messages(with_categories=true) %}
-            <span class="flash {{ category }}">{{ msg }}</span>
+              <span class="flashMessage {{ category }}">{{ msg }}</span>
             {% endfor %}
           </div>
-          <div class="mainContent">{% block pagecontent %}{% endblock %}</div>
+          <div class="mainContentContainer">
+            <div class='mainContent'>
+              {% block pagecontent %}{% endblock %}
+            </div>
+          </div>
+        </section>
+
+        <section class="sidebar">
+
         </section>
       </main>
+
       <footer>
         <a class="credit" href="https://www.whoisjaytee.com" target="_blank"
           >WhoIsJaytee.com</a
         >
       </footer>
-    </div>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="/static/js/index.js"></script>
   </body>
