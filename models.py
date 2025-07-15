@@ -1,3 +1,5 @@
+"""Models for Todo List"""
+
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 
@@ -8,6 +10,7 @@ bcrypt = Bcrypt()
 
 
 def connect_db(app):
+    """Connect to the database."""
     db.app = app
     db.init_app(app)
 
