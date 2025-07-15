@@ -16,7 +16,7 @@ from models import db, connect_db, Todo, User
 
 
 app = Flask(__name__)
-cors = CORS(app)
+cors = CORS()
 
 
 # below line necessary to run seed.py (https://stackoverflow.com/a/74364913/7207125)
@@ -27,11 +27,12 @@ cors = CORS(app)
 
 # Get DB_URI from environ variable (useful for production/testing) or,
 # if not set there, use development local db.
-if os.environ.get("FLASK_ENV") == "development":
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///todo_list'
+if os.environ.get('FLASK_ENV') == "development":
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
 else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
-        'SUPABASE_DATABASE_URL')
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        os.environ.get('SUPABASE_DATABASE_URL'))
 
 # sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -45,8 +46,8 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 
 # address warning in the browser console
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
-app.config['SESSION_COOKIE_SAMESITE'] = 'None'
-app.config['SESSION_COOKIE_SECURE'] = 'True'
+# app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+# app.config['SESSION_COOKIE_SECURE'] = 'True'
 
 toolbar = DebugToolbarExtension(app)
 
