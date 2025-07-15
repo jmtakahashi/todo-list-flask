@@ -16,7 +16,7 @@ const handleClick = (e) => {
 const doneHandler = async (e) => {
   const id = e.target.dataset.id;
 
-  // our tr will have an id attribute
+  // will be the <tr> and <tr> will have an id attribute
   const container = document.getElementById(id);
 
   try {
@@ -29,9 +29,9 @@ const doneHandler = async (e) => {
 
     if (resp.status == 200) {
       if (resp.data.todo.complete) {
-        container.children[1].classList.add("complete")
+        container.children[1].children[0].classList.add("complete")
       } else {
-        container.children[1].classList.remove("complete")
+        container.children[1].children[0].classList.remove("complete")
       }
     }
     

@@ -189,7 +189,7 @@ def show_todos():
     todos = []
 
     if CURR_USER_KEY in session:
-        t = Todo.query.all()
+        t = Todo.query.order_by("id").all()
         # format datetime obj
         if len(t) > 0:
             for todo in t:

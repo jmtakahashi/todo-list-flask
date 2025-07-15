@@ -27,17 +27,10 @@
         {% for todo in todos %}
         <tr id="{{ todo.id }}" class="todo">
           <td>
-            {% if todo.complete %}
-            <input
-              name="complete"
-              type="checkbox"
-              class="todo__doneBtn"
-              data-id="{{ todo.id }}"
-              checked
-            />
-            {% else %}
-            <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" />
-            {% endif %}
+            <label class='completedInputContainer'>
+              <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
+              <span class="checkbox"></span>
+            </label>
           </td>
 
           <td><span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span></td>
