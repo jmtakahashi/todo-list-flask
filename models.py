@@ -47,14 +47,6 @@ class User(db.Model):
     def authenticate(cls, email, password):
         """Validate that user exists and password is correct."""
 
-        print("")
-        print("*******************")
-        print(email)
-        print(password)
-        print("*******************")
-        print("")
-
-        # try to get our user based on email
         user = User.query.filter_by(email=email).first()
 
         # if a user is returned and they password provided matches, return the user
