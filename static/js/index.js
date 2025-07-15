@@ -1,20 +1,40 @@
-const BASE_URL = "http://localhost:5000";
+const todos = document.getElementsByClassName("todo")
 
-deleteBtns = document.querySelectorAll(".todo__deleteBtn");
-editBtns = document.querySelectorAll(".todo__editBtn");
-doneBtns = document.querySelectorAll(".todo__doneBox");
+const handleClick = (e) => {
+  if (e.target.classList.contains("todo__doneBtn")) {
+    doneHandler(e)
+  }
+  if (e.target.classList.contains("todo__text")) {
+    editHandler(e)
+  }
+  if (e.target.classList.contains("todo__deleteBtn")) {
+    deleteHandler(e)
+  }
+}
 
 // handle the done checkbox click
 const doneHandler = async (e) => {
   const id = e.target.dataset.id;
 
+  // our tr will have an id attribute
+  const container = document.getElementById(id);
+
   try {
     const resp = await axios({
       method: "patch",
       headers: { "Content-Type": "application/json" },
-      url: `${BASE_URL}/api/todos/${id}`,
-      data: { done: e.target.checked },
+      url: `/api/todos/${id}`,
+      data: { complete: e.target.checked },
     });
+
+    if (resp.status == 200) {
+      if (resp.data.todo.complete) {
+        container.children[1].classList.add("complete")
+      } else {
+        container.children[1].classList.remove("complete")
+      }
+    }
+    
   } catch (e) {
     console.log("error: ", e);
   }
@@ -30,47 +50,59 @@ const deleteHandler = async (e) => {
   const container = document.getElementById(id);
 
   try {
-    const resp = await axios.delete(`${BASE_URL}/api/todos/${id}`);
+    const resp = await axios.delete(`/api/todos/${id}`);
 
-    container.remove();
+    if (resp.status === 200) {
+      container.remove();
+    }
+    
   } catch (e) {
     console.log("error: ", e);
   }
+  
 };
 
-// handle the edit button click
+// handle editing the todo
 const editHandler = async (e) => {
-  e.preventDefault();
   const id = e.target.dataset.id;
 
-  // our tr will have an id attribute
-  const container = document.getElementById(id);
+  const todoTextArea = e.target // this will be the <td>
+  const curr_text = todoTextArea.innerText
 
   // hide the current html and show a form with and edit and cancel button
-  container.innerHTML = `<form><input type="text"/><button>Submit</button><button>Cancel</button>`;
+  const editForm = document.createElement('input')
+  editForm.setAttribute("name", "editedTodo")
+  editForm.setAttribute("type", "text")
+  editForm.value = curr_text;
+  todoTextArea.innerText = "";
+  todoTextArea.append(editForm)
 
-  try {
-    const resp = await axios({
-      method: "patch",
-      headers: { "Content-Type": "application/json" },
-      url: `${BASE_URL}/api/todos/${id}`,
-      data: { todo: todo.value },
-    });
+  todoTextArea.children[0].addEventListener("keypress", async (e) => {
+    if (e.key === 'Enter') {
+      const todo = e.target.value
 
-    // replace the current inner text with the submitted inner text
-  } catch (e) {
-    console.log("error: ", e);
-  }
+      try {
+        const resp = await axios({
+          method: "patch",
+          headers: { "Content-Type": "application/json" },
+          url: `/api/todos/${id}`,
+          data: { todo },
+        });
+
+        if (resp.status === 200) {
+          const editedTodo = resp.data.todo.todo
+          // remove text field and replace with new text
+          todoTextArea.children[0].remove()
+          todoTextArea.innerText = editedTodo
+         
+        }
+      } catch (e) {
+        console.log("error: ", e);
+      }
+    }
+  })
 };
 
-for (let btn of deleteBtns) {
-  btn.addEventListener("click", deleteHandler);
-}
-
-for (let btn of editBtns) {
-  btn.addEventListener("click", editHandler);
-}
-
-for (let btn of doneBtns) {
-  btn.addEventListener("click", doneHandler);
+for (let todo of todos) {
+  todo.addEventListener("click", handleClick )
 }

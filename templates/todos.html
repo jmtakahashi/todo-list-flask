@@ -37,16 +37,17 @@ block header %}{% if g.user %}
       <td>
         {% if todo.complete %}
         <input
+          name="complete"
           type="checkbox"
           class="todo__doneBtn"
           data-id="{{ todo.id }}"
           checked
         />
         {% else %}
-        <input type="checkbox" class="todo__doneBox" data-id="{{ todo.id }}" />
+        <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" />
         {% endif %}
       </td>
-      <td class="todo__text">{{ todo.todo }}</td>
+      <td class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</td>
 
       <td class="todo__date-added">{{ todo.date_added }}</td>
       <!-- <td>

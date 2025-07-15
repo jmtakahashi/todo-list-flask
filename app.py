@@ -18,6 +18,7 @@ from models import db, connect_db, Todo, User
 app = Flask(__name__)
 cors = CORS(app)
 
+
 # below line necessary to run seed.py (https://stackoverflow.com/a/74364913/7207125)
 # app.app_context().push()
 
@@ -178,7 +179,7 @@ def show_todos():
     form = TodoAddForm()
 
     if form.validate_on_submit():
-        new_todo = Todo(todo=form.todo.data)
+        new_todo = Todo(user_id=g.user.id, todo=form.todo.data)
 
         try:
             db.session.add(new_todo)
@@ -201,10 +202,128 @@ def show_todos():
     if CURR_USER_KEY in session:
         todos = Todo.query.all()
 
-    print("")
-    print("****************")
-    print(todos)
-    print("****************")
-    print("")
-
     return render_template('todos.html', form=form, todos=todos)
+
+
+###############################################################################
+# api routes - todos
+
+# get todos
+@app.route("/api/todos", methods=["GET"])
+def get_todos():
+    """Get all todos."""
+
+    todos = Todo.query.all()
+
+    # if no todos found, respond with message
+    if len(todos) == 0:
+        resp = jsonify(message="no todos found")
+        return (resp)
+
+    data = [todo.serialize() for todo in todos]
+    resp = jsonify(todos=data)
+    return (resp, 200)
+
+
+# add a todo
+@app.route("/api/todos", methods=["POST"])
+def add_todo():
+    """Add a todo. Returns the newly added todo."""
+
+    # attempt to get our data from the post request
+    data = request.json.get("todo")
+
+    # if the data we need is not in the request, throw an error
+    if not data:
+        resp = jsonify(message="missing required data")
+        return (resp, 400)
+
+    # if data is there, try to add to the db
+    new_todo = Todo(todo=data)
+
+    try:
+        db.session.add(new_todo)
+        db.session.commit()
+
+    except:
+        resp = jsonify(message="todo not created")
+        return (resp, 400)
+
+    # serialize the todo (which now contains "id" and "complete" status),
+    # create our resp and return
+    data = new_todo.serialize()
+    resp = jsonify(todo=data)
+    return (resp, 201)
+
+
+# get a single todo
+@app.route("/api/todos/<int:id>", methods=["GET"])
+def get_todo(id):
+    """Get a single todo by id."""
+
+    # get our todo.  if not found, the except block will run
+    todo = Todo.query.get(id)
+
+    if todo:
+        # serialize the todo, create our resp and return
+        data = todo.serialize()
+        resp = jsonify(todo=data)
+        return (resp)
+    else:
+        resp = jsonify(message="todo not found")
+        return (resp, 404)
+
+
+# edit a todo
+@app.route("/api/todos/<int:id>", methods=["PATCH"])
+def edit_todo(id):
+    """Edit a single todo by id. Returns the edited todo."""
+
+    # get our todo.  if not found, the except block will run
+    todo = Todo.query.get(id)
+
+    if todo:
+        # update our todo with new data, giving default options if the data
+        # doesn't exist in the json of the request
+        todo.todo = request.json.get("todo", todo.todo)
+        todo.complete = request.json.get("complete", todo.complete)
+
+        try:
+            db.session.commit()
+
+        except:
+            resp = jsonify(message="an error occured")
+            return (resp, 400)
+
+    else:
+        resp = jsonify(message="todo not found")
+        return (resp, 404)
+
+    # serialize the todo, create our resp and return
+    data = todo.serialize()
+    resp = jsonify(todo=data)
+    return (resp, 200)
+
+
+# delete a todo route
+@app.route("/api/todos/<id>", methods=["DELETE"])
+def delete_todo(id):
+    """Delete a single todo by id."""
+
+    todo = Todo.query.get(id)
+
+    if todo:
+        try:
+            db.session.delete(todo)
+            db.session.commit()
+
+        except:
+            resp = jsonify(message="an error occured")
+            return (resp, 404)
+
+    else:
+        resp = jsonify(message="todo not found")
+        return (resp, 404)
+
+    resp = jsonify(deleted=id)
+    return (resp)

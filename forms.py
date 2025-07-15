@@ -7,7 +7,8 @@ from wtforms.validators import DataRequired, Email, Length
 class TodoAddForm(FlaskForm):
     """Form for adding todos."""
 
-    todo = StringField('New Todo', validators=[DataRequired()])
+    todo = StringField('New Todo', validators=[
+                       DataRequired("Please enter a todo!")])
 
 
 class LoginForm(FlaskForm):

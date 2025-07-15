@@ -437,6 +437,10 @@ button {
 
 .todo__text {
   flex-grow: 1;
+  text-decoration: none;
+}
+.todo__text.complete {
+  text-decoration: line-through;
 }
 
 .todo__doneBox {
