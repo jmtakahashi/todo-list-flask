@@ -2,14 +2,14 @@
 --   psql < data.sql
 --   psql [database_name]
 
-DROP DATABASE IF EXISTS todo_list;
-CREATE DATABASE todo_list;
+-- DROP DATABASE IF EXISTS todo_list;
+-- CREATE DATABASE todo_list;
 
 -- for supabse
--- \c postgres
+\c postgres
 
 -- for local or other
-\c todo_list
+-- \c todo_list
 
 DROP TABLE users;
 DROP TABLE todos;
