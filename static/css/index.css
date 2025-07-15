@@ -208,7 +208,6 @@ button {
 }
 
 .todo__text {
-  flex-grow: 1;
   text-decoration: none;
 }
 .todo__text.complete {
@@ -216,7 +215,7 @@ button {
 }
 
 .todo__editTodoInput {
-  padding: .5rem;
+  padding: .45rem;
 }
 
 .todo__dateAdded {

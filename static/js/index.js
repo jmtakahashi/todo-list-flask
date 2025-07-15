@@ -63,21 +63,26 @@ const deleteHandler = async (e) => {
 };
 
 // handle editing the todo
-const editHandler = async (e) => {
+const editHandler = (e) => {
   const id = e.target.dataset.id;
 
-  const todoTextArea = e.target // this will be the <td>
+  const todoTextArea = e.target // this will be the <span> inside the <td>
+  const todoTD = e.target.parentElement // this will be the <td>
   const curr_text = todoTextArea.innerText
 
-  // hide the current html and show a form with and edit and cancel button
+  // hide the current <span> html and show an input element with the todo text pre-populated
   const editForm = document.createElement('input')
+  editForm.setAttribute("id", "edit-todo")
   editForm.setAttribute("name", "editedTodo")
   editForm.setAttribute("type", "text")
+  editForm.classList.add("todo__editTodoInput")
   editForm.value = curr_text;
-  todoTextArea.innerText = "";
-  todoTextArea.append(editForm)
+  todoTextArea.remove()
+  todoTD.append(editForm)
 
-  todoTextArea.children[0].addEventListener("keypress", async (e) => {
+  const editTodoInput = document.getElementById("edit-todo")
+  
+  editTodoInput.addEventListener("keypress", async (e) => {
     if (e.key === 'Enter') {
       const todo = e.target.value
 
@@ -91,10 +96,15 @@ const editHandler = async (e) => {
 
         if (resp.status === 200) {
           const editedTodo = resp.data.todo.todo
-          // remove text field and replace with new text
-          todoTextArea.children[0].remove()
-          todoTextArea.innerText = editedTodo
-         
+          const complete = resp.data.todo.complete
+          // remove the editTodo <input> field and replace with new text
+          const span = document.createElement('span')
+          span.setAttribute('data-id', id)
+          span.classList.add('todo__text')
+          if (complete) span.classList.add('complete')
+          span.innerText = editedTodo
+          editTodoInput.remove()  
+          todoTD.append(span)
         }
       } catch (e) {
         console.log("error: ", e);
