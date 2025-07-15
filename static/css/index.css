@@ -195,12 +195,11 @@ button {
 }
 
 .todo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: .5rem;
   border-bottom: 1px solid var(--accent-purple);
-  padding: 1rem;
+}
+
+.todo > td {
+  padding: .5rem;
 }
 
 .todo__doneBtn {
@@ -219,7 +218,7 @@ button {
 }
 
 .todo__dateAdded {
-  font-size: .75rem;
+  font-size: .65rem;
 }
 
 .todo__deleteBtn {
@@ -228,6 +227,7 @@ button {
   font-weight: bold;
   padding: .5rem;
   cursor: pointer;
+  text-align: right;
 }
 
 .credit {

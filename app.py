@@ -1,14 +1,12 @@
 import os
+from datetime import datetime
 
 # from termcolor import colored
 
 from flask import Flask, render_template, request, redirect, flash, jsonify, session, g
 from sqlalchemy.exc import IntegrityError
 
-# import text so we can use fstrings in our filter/sort queries
-from sqlalchemy.sql import text
-
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 
 from forms import TodoAddForm, LoginForm, UserAddForm
@@ -49,7 +47,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 # app.config['SESSION_COOKIE_SECURE'] = 'True'
 
-# toolbar = DebugToolbarExtension(app)
+toolbar = DebugToolbarExtension(app)
 
 
 ###############################################################################
@@ -120,11 +118,8 @@ def signup():
 
         do_login(u)
 
-        # after we do_login() we redirect to index again, but add_user_to_g() will
-        # run and we will have g.user when we redirect to the index page.
         return redirect('/todos')
 
-    # if form not validated just display the template
     return render_template('signup.html', form=form)
 
 
@@ -150,8 +145,6 @@ def home_page():
         u = User.authenticate(form.email.data,
                               form.password.data)
 
-        # is u comes back with data, login our user.
-        # if u comes back with False, set a flash message
         if u:
             do_login(u)
 
@@ -195,13 +188,14 @@ def show_todos():
     # initialize a var so we can pass it to the template (python scope issue)
     todos = []
 
-    # this is additional security to ensure no todos are passed w/o logging in.
-    # if we don't check that user is logged in first and simply got all todos,
-    # we wouldn't see them on the front-end because we also check using jinja
-    # but the todos arg would still be passed to the index.html view.
-    # this stops Flask from sending any todos if no user is logged in.
     if CURR_USER_KEY in session:
-        todos = Todo.query.all()
+        t = Todo.query.all()
+        # format datetime obj
+        if len(t) > 0:
+            for todo in t:
+                formattedDate = todo.date_added.date().strftime("%m-%d-%Y")
+                todo.date_added = formattedDate
+                todos.append(todo)
 
     return render_template('todos.html', form=form, todos=todos)
 
