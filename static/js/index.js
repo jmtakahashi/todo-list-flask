@@ -64,63 +64,63 @@ const deleteHandler = async (e) => {
 
 // handle editing the todo
 const editHandler = (e) => {
-  const id = e.target.dataset.id;
-
-  const todoTextArea = e.target // this will be the <span> inside the <td>
-  const todoTD = e.target.parentElement // this will be the <td>
-  const curr_text = todoTextArea.innerText
-
-  // hide the current <span> html and show an input element with the todo text pre-populated
-  const editForm = document.createElement('input')
-  editForm.setAttribute("name", "editedTodo")
-  editForm.setAttribute("type", "text")
-  editForm.classList.add("todo__editTodoInput")
-  editForm.setAttribute("data-id", id)
-  editForm.value = curr_text;
-  todoTextArea.remove()
-  todoTD.append(editForm)
-  editForm.focus();
-
-  // if input is unfocused with hitting enter, reset the <td> to original state
-  editForm.addEventListener("blur", (e) => {
-    e.target.remove()
-    todoTD.append(todoTextArea)
-  })
-
+  // e.target will be the <span>
   
-  editForm.addEventListener("keypress", async (e) => {
-    if (e.key === 'Enter') {
+  const todoSpan = e.target // this will be the <span> inside the <td>
+  const editTodoInput = e.target.parentElement.children[1] // this will be the input element
+  const curr_text = e.target.innerText // this will be the text before editing
 
-      const id = editForm.getAttribute("data-id");
-      const todo = e.target.value
+  // remove the current <span> html and show an input element with the todo text pre-populated
+  todoSpan.classList.add("hidden")
+  editTodoInput.value = curr_text
+  editTodoInput.classList.remove("hidden")
+
+  editTodoInput.focus();
+
+  editTodoInput.addEventListener("blur", editFormHandler)
+  editTodoInput.addEventListener("keypress", editFormHandler)
+    
+};
+
+const editFormHandler = async (e) => {
+  // e.target will be our input element
+
+  if (e.type === "blur") {
+    e.target.parentElement.children[0].classList.remove("hidden")
+    e.target.classList.add("hidden")
+
+  } else if (e.type === "keypress") {
+    if (e.key === 'Enter') {
+      e.target.removeEventListener("blur", editFormHandler);
+
+      const id = e.target.getAttribute("data-id");
+      const edited_todo = e.target.value
 
       try {
         const resp = await axios({
           method: "patch",
           headers: { "Content-Type": "application/json" },
           url: `/api/todos/${id}`,
-          data: { todo },
+          data: { todo: edited_todo },
         });
 
         if (resp.status === 200) {
-          const editedTodo = resp.data.todo.todo
+          const newTodo = resp.data.todo.todo
           const complete = resp.data.todo.complete
-          // remove the editTodo <input> field and replace with new text
-          const span = document.createElement('span')
-          span.setAttribute('data-id', id)
-          span.classList.add('todo__text')
-          if (complete) span.classList.add('complete')
-          span.innerText = editedTodo
-          // editForm.remove()
-          // form is already removed from our blur event
-          todoTD.append(span)
+
+          // remove the <input> field and replace with new text
+          e.target.parentElement.children[0].innerText = newTodo
+
+          e.target.parentElement.children[0].classList.remove("hidden")
+          e.target.classList.add("hidden")
+
         }
       } catch (e) {
         console.log("error: ", e);
       }
     }
-  })
-};
+  }  
+}
 
 for (let todo of todos) {
   todo.addEventListener("click", handleClick )

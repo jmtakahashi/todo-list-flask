@@ -139,7 +139,6 @@ header {
   color: var(--error);
 }
 
-
 .mainContentContainer {
   flex-grow: 1;
   display: flex;
@@ -153,7 +152,14 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 2rem;
+  padding: 1rem;
+}
+
+@media screen and (min-width: 767px) {
+  .mainContent {
+    padding: 2rem;
+  }
+  
 }
 
 footer {
@@ -288,6 +294,10 @@ button {
 .todo__editTodoInput {
   padding: .40rem;
   font-size: .85rem;
+}
+
+.hidden {
+  display: none;
 }
 
 .todo__dateAdded {

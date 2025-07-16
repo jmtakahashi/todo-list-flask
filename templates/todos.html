@@ -33,7 +33,10 @@
             </label>
           </td>
 
-          <td><span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span></td>
+          <td>
+            <span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span>
+            <input type="text" class="todo__editTodoInput hidden" name="editedTodo" data-id="{{ todo.id }}"/>
+          </td>
 
           <td><span class="todo__dateAdded">{{ todo.date_added }}</span></td>
 

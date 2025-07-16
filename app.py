@@ -1,8 +1,6 @@
 import os
 from datetime import datetime
 
-# from termcolor import colored
-
 from flask import Flask, render_template, request, redirect, flash, jsonify, session, g
 from sqlalchemy.exc import IntegrityError
 
