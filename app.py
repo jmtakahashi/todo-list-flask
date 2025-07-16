@@ -113,7 +113,7 @@ def signup():
             db.session.commit()
 
         except IntegrityError as exc:
-            flash("Account exists please login!", 'danger')
+            flash("Account exists please login!", 'error')
             return redirect('/')
 
         do_login(u)
@@ -139,6 +139,9 @@ def logout():
 def home_page():
     """The home page.  Authenticate user and redirect to todos page."""
 
+    if CURR_USER_KEY in session:
+        return redirect("/todos")
+
     form = LoginForm()
 
     if form.validate_on_submit():
@@ -149,7 +152,7 @@ def home_page():
             do_login(u)
 
         else:
-            flash("Invalid login credentials.  Please try again.", 'danger')
+            flash("Invalid login credentials.  Please try again.", 'error')
             return redirect("/")
 
         # if no errors thrown, send user to /todos with a success msg
@@ -166,7 +169,7 @@ def home_page():
 def show_todos():
     """Show all todos, with the add todo form."""
 
-    if not g.user:
+    if CURR_USER_KEY not in session:
         flash("Please login!", "danger")
         return redirect("/")
 
@@ -180,7 +183,7 @@ def show_todos():
             db.session.commit()
 
         except IntegrityError as exc:
-            flash("Please try adding the todo again.", "danger")
+            flash("Please try adding the todo again.", "error")
 
         flash("Todo added!", "success")
         return redirect("/todos")

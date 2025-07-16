@@ -15,13 +15,24 @@
   --background-dark: #020314;
 
   --accent-purple: #6917d0;
-  --accent-pink: #e032e6;
+  --accent-light-purple: #8632e6;
+  --accent-blue: #2d00f7;
+  
+  --accent-pink: #ff1791;
   --accent-teal: #17ffee;
+  --accent-dark-teal: #1dd3b0;
 
   --danger: #f55;
   --success: #17ffee;
   --warning: #f55;
   --error: #f55;
+
+  --page-border-color: var(--accent-purple);
+  --page-title-color: var(--accent-teal);
+  --form-label-color: var(--accent-dark-teal);
+  --form-input-text-color: var(--accent-teal);
+  --form-border-color:var(--accent-light-purple);
+  --header-footer-text-color: var(--accent-pink);
 }
 
 * {
@@ -38,10 +49,11 @@ body {
   flex-direction: column;
   color: var(--accent-teal);
   overscroll-behavior: none;
+  color: #1dd3b0;
 }
 
 header {
-  border-bottom: 1px solid var(--accent-purple);
+  border-bottom: 1px solid var(--page-border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,7 +64,7 @@ header {
   margin: 0;
   font-size: 1rem;
   font-weight: 700;
-  color: var(--accent-pink);
+  color: var(--header-footer-text-color);
 }
 
 .nav {
@@ -65,7 +77,7 @@ header {
 
 .nav-link {
   text-decoration: none;
-  color: var(--accent-pink);
+  color: var(--header-footer-text-color);
 }
 
 .mainContainer {
@@ -95,7 +107,7 @@ header {
     background: url(/static/images/bakhodirjon-abduraimov-0i_VuYCFais-unsplash.jpg);
     background-size: cover;
     position: relative;
-    border-left: 1px solid var(--accent-purple);
+    border-left: 1px solid var(--page-border-color);
   }
 
   .sidebar::before {
@@ -105,14 +117,14 @@ header {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
   }
 }
 
 .flashMessage {
   display: block;
   padding: 1rem;
-  border-bottom: 1px solid var(--accent-purple);
+  border-bottom: 1px solid var(--page-border-color);
 }
 .flashMessage.danger {
   color: var(--danger);
@@ -145,7 +157,7 @@ header {
 }
 
 footer {
-  border-top: 1px solid var(--accent-purple);
+  border-top: 1px solid var(--page-border-color);
   padding: 1rem;
 }
 
@@ -153,6 +165,7 @@ footer {
   font-size: 32px;
   font-weight: 500;
   margin-top: 0;
+  color: #17ffee;
 }
 
 form {
@@ -165,14 +178,15 @@ form {
 .formItem label {
   display: block;
   margin-bottom: .5rem;
+  color: var(--form-label-color);
 }
 
 input,
 button {
   width: 100%;
   background: transparent;
-  border: 1px solid var(--accent-purple);
-  color: var(--accent-teal);
+  border: 1px solid var(--accent-light-purple);
+  color: var(--form-input-text-color);
 }
 
 input {
@@ -190,12 +204,13 @@ button {
 .todoList {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--accent-purple);
+  border: 1px solid var(--form-border-color);
   border-bottom: none;
 }
 
 .todo {
-  border-bottom: 1px solid var(--accent-purple);
+  border-bottom: 1px solid var(--form-border-color);
+  color: var(--form-input-text-color);
 }
 
 .todo > td {
@@ -233,7 +248,7 @@ button {
   height: 24px;
   width: 24px;
   background-color: transparent;
-  border: 1px solid var(--accent-purple);
+  border: 1px solid var(--form-border-color);
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -254,7 +269,7 @@ button {
   top: 4px;
   width: 5px;
   height: 10px;
-  border: solid var(--accent-teal);
+  border: solid var(--form-input-text-color);
   border-width: 0 2px 2px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
@@ -264,13 +279,15 @@ button {
 .todo__text {
   display: block;
   text-decoration: none;
+  font-size: .85rem;
 }
 .todo__text.complete {
   text-decoration: line-through;
 }
 
 .todo__editTodoInput {
-  padding: .45rem;
+  padding: .40rem;
+  font-size: .85rem;
 }
 
 .todo__dateAdded {
@@ -287,7 +304,7 @@ button {
 }
 
 .credit {
-  color: var(--accent-pink);
+  color: var(--header-footer-text-color);
   text-decoration: none;
   font-size: .75rem;
 }

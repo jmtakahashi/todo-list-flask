@@ -72,18 +72,26 @@ const editHandler = (e) => {
 
   // hide the current <span> html and show an input element with the todo text pre-populated
   const editForm = document.createElement('input')
-  editForm.setAttribute("id", "edit-todo")
   editForm.setAttribute("name", "editedTodo")
   editForm.setAttribute("type", "text")
   editForm.classList.add("todo__editTodoInput")
+  editForm.setAttribute("data-id", id)
   editForm.value = curr_text;
   todoTextArea.remove()
   todoTD.append(editForm)
+  editForm.focus();
 
-  const editTodoInput = document.getElementById("edit-todo")
+  // if input is unfocused with hitting enter, reset the <td> to original state
+  editForm.addEventListener("blur", (e) => {
+    e.target.remove()
+    todoTD.append(todoTextArea)
+  })
+
   
-  editTodoInput.addEventListener("keypress", async (e) => {
+  editForm.addEventListener("keypress", async (e) => {
     if (e.key === 'Enter') {
+
+      const id = editForm.getAttribute("data-id");
       const todo = e.target.value
 
       try {
@@ -103,7 +111,8 @@ const editHandler = (e) => {
           span.classList.add('todo__text')
           if (complete) span.classList.add('complete')
           span.innerText = editedTodo
-          editTodoInput.remove()  
+          // editForm.remove()
+          // form is already removed from our blur event
           todoTD.append(span)
         }
       } catch (e) {
