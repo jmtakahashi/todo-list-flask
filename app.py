@@ -208,18 +208,65 @@ def show_todos():
 # todos - show todos + add todo - requires auth
 
 @app.route("/profile", methods=["GET", "POST", "DELETE"])
-def show_profile():
-    """Show user profile, edit and delete."""
+def edit_profile():
+    """Show/handle the user profile editing page.  Require auth!"""
 
-    form = UserEditForm()
+    if not g.user:
+        flash("Please login!", "danger")
+        return redirect("/login")
+
+    editForm = UserEditForm(obj=g.user)
     deleteForm = UserDeleteForm()
 
-    if form.validate_on_submit():
+    if editForm.validate_on_submit():
+        u = User.authenticate(g.user.email, editForm.password.data)
 
-        flash("Profile updated.", "success")
+        if u:
+            # update the user with the new data
+            u.username = editForm.username.data
+            u.email = editForm.email.data
+
+            # if user is changing passwords, hash the new pw before commiting
+            if editForm.new_password.data:
+                newPW = User.hash_password(editForm.new_password.data)
+                u.password = newPW
+
+            # we do not need to db.session.add() since sqlalchemy
+            # already has the user in memory
+            try:
+                db.session.commit()
+
+            except IntegrityError as exc:
+                flash("Email already exists!", "danger")
+                return redirect("/profile")
+
+            flash("Your profile has been updated!", "success")
+            return redirect("/profile")
+
+        flash("Current password incorrect!", "danger")
         return redirect("/profile")
 
-    return render_template("profile.html", form=form, deleteForm=deleteForm)
+    if deleteForm.validate_on_submit():
+        u = User.authenticate(g.user.email, deleteForm.password.data)
+
+        if u:
+            try:
+                db.session.delete(u)
+                db.session.commit()
+
+            except:
+                flash("There was an error, please refresh and try again!", "danger")
+                return redirect("/profile")
+
+            do_logout()
+
+            flash("Your profile has been deleted!", "danger")
+            return redirect("/")
+
+        flash("Incorrect password! Your profile has not been deleted!", "danger")
+        return redirect("/profile")
+
+    return render_template("profile.html", editForm=editForm, deleteForm=deleteForm, user=g.user)
 
 
 ###############################################################################
