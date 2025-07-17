@@ -27,7 +27,7 @@
     <h2>Delete Profile</h2>
     <p class="profile_delete-warning">WARNING: Deleting your profile is permanent! Please be be absolutely sure
       you want to delete your profile before clicking the button below!</p>
-    <form id="profile-delete-form" action="/profile/delete" method="POST">
+    <form id="profile-delete-form" action="/profile/" method="POST">
       {{ deleteForm.hidden_tag() }}
       {% for field in deleteForm if field.widget.input_type != 'hidden' %}
 
