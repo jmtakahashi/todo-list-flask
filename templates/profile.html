@@ -6,11 +6,11 @@
   <div class="profileEditForm">
     <h2 class='pageTitle'>{{ g.user.username }}'s Profile</h2>
     <form id="profileForm" class="todoForm" method="POST">
-      {{ form.hidden_tag() }}
-      {% for field in form if field.widget.input_type != 'hidden' %}
+      {{ editForm.hidden_tag() }}
+      {% for field in editForm if field.widget.input_type != 'hidden' %}
 
       <div class='formItem'>
-        {{ field }}
+         {{ field.label }} {{ field }}
         {% for error in field.errors %}
           <div>
             <span class="error">{{ error}}</span>
@@ -19,7 +19,7 @@
       </div>
 
       {% endfor %}
-      <button type="submit">Add Todo</button>
+      <button type="submit">Edit Profile</button>
     </form>
   </div>
 
@@ -31,7 +31,7 @@
       {{ deleteForm.hidden_tag() }}
       {% for field in deleteForm if field.widget.input_type != 'hidden' %}
 
-      <div>
+      <div class="formItem">
         {{ field.label }} {{ field }}
         {% for error in field.errors %}
           <span class="error">{{ error}}</span>

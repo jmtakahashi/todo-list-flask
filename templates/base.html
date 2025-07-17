@@ -20,7 +20,9 @@
   </head>
   <body>
       <header>
-        <h1 class="logo">TodoList</h1>
+        {% if g.user %}<a class="nav-link" href="/">{% endif %}
+          <h1 class="logo">TodoList</h1>
+        {% if g.user %}</a>{% endif %}
         <nav>
           <ul class="nav">
             {% if g.user %}
