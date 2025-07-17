@@ -3,7 +3,7 @@
 # run using:
 #   $ python seed.py
 
-from models import db
+from models import db, User, Todo
 from app import app
 
 db.drop_all()

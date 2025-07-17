@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 
-from forms import TodoAddForm, LoginForm, UserAddForm
+from forms import TodoAddForm, LoginForm, UserAddForm, UserEditForm, UserDeleteForm
 from models import db, connect_db, Todo, User
 
 
@@ -202,6 +202,24 @@ def show_todos():
                 todos.append(todo)
 
     return render_template('todos.html', form=form, todos=todos)
+
+
+###############################################################################
+# todos - show todos + add todo - requires auth
+
+@app.route("/profile", methods=["GET", "POST", "DELETE"])
+def show_profile():
+    """Show user profile, edit and delete."""
+
+    form = UserEditForm()
+    deleteForm = UserDeleteForm()
+
+    if form.validate_on_submit():
+
+        flash("Profile updated.", "success")
+        return redirect("/profile")
+
+    return render_template("profile.html", form=form, deleteForm=deleteForm)
 
 
 ###############################################################################
