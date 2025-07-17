@@ -45,7 +45,7 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 # app.config['SESSION_COOKIE_SECURE'] = 'True'
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)
 
 
 ###############################################################################
@@ -96,6 +96,9 @@ def do_logout():
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
     """Display signup form and Handle user signup."""
+
+    if CURR_USER_KEY in session:
+        return redirect("/todos")
 
     form = UserAddForm()
 
@@ -194,7 +197,7 @@ def show_todos():
         # format datetime obj
         if len(t) > 0:
             for todo in t:
-                formattedDate = todo.date_added.date().strftime("%m-%d-%Y")
+                formattedDate = todo.date_added.date().strftime("%m.%d.%y")
                 todo.date_added = formattedDate
                 todos.append(todo)
 

@@ -212,6 +212,7 @@ button {
   border-collapse: collapse;
   border: 1px solid var(--form-border-color);
   border-bottom: none;
+  margin-bottom: 36px;
 }
 
 .todo {
@@ -232,7 +233,6 @@ button {
   display: inline-block;
   position: relative;
   cursor: pointer;
-  font-size: 22px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -251,8 +251,8 @@ button {
 /* Create a custom checkbox */
 .checkbox {
   display: block;
-  height: 24px;
-  width: 24px;
+  height: 20px;
+  width: 20px;
   background-color: transparent;
   border: 1px solid var(--form-border-color);
 }
@@ -271,8 +271,8 @@ button {
 
 /* Style the checkmark/indicator */
 .completedInputContainer .checkbox:after {
-  left: 9px;
-  top: 4px;
+  left: 6px;
+  top: 2px;
   width: 5px;
   height: 10px;
   border: solid var(--form-input-text-color);
@@ -306,10 +306,7 @@ button {
 }
 
 .todo__deleteBtn {
-  display: inline-block;
   padding: .25rem;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: bold;
   cursor: pointer;
 }
 
