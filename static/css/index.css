@@ -62,14 +62,14 @@ header {
 
 .logo {
   margin: 0;
-  font-size: 1rem;
+  font-size: 18px;
   font-weight: 700;
   color: var(--header-footer-text-color);
 }
 
 .nav {
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -78,6 +78,10 @@ header {
 .nav-link {
   text-decoration: none;
   color: var(--header-footer-text-color);
+}
+
+.fa-sign-out-alt {
+  font-size: 18px
 }
 
 .mainContainer {
@@ -308,6 +312,11 @@ button {
 .todo__deleteBtn {
   padding: .25rem;
   cursor: pointer;
+}
+
+.profileEditForm,
+.profileDeleteFOrm {
+  width: 100%;
 }
 
 .credit {
