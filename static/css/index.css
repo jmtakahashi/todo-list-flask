@@ -273,6 +273,26 @@ input {
   padding: .75rem;
 }
 
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color: var(--accent-dark-teal);
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color: var(--accent-dark-teal);
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color: var(--accent-dark-teal);
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: var(--accent-dark-teal);
+}
+::-ms-input-placeholder { /* Microsoft Edge */
+   color: var(--accent-dark-teal);
+}
+
+::placeholder { /* Most modern browsers support this now. */
+   color: var(--accent-dark-teal);
+}
+
 button {
   padding: 0.75rem 1.5rem;
 }
