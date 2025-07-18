@@ -228,11 +228,9 @@ def edit_profile():
 
             # if user is changing passwords, hash the new pw before commiting
             if editForm.new_password.data:
-                newPW = User.hash_password(editForm.new_password.data)
-                u.password = newPW
+                new_pw = User.hash_password(editForm.new_password.data)
+                u.password = new_pw
 
-            # we do not need to db.session.add() since sqlalchemy
-            # already has the user in memory
             try:
                 db.session.commit()
 

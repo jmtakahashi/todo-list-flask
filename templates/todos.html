@@ -11,9 +11,7 @@
     <div class='formItem'>
       {{ field }}
       {% for error in field.errors %}
-        <div>
-          <span class="error">{{ error}}</span>
-        </div>
+        <span class="formError">{{ error}}</span>
       {% endfor %}
     </div>
 

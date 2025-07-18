@@ -167,6 +167,7 @@ header {
 }
 
 footer {
+  text-align: center;
   border-top: 1px solid var(--page-border-color);
   padding: 1rem;
 }
@@ -175,8 +176,22 @@ footer {
   font-size: 32px;
   font-weight: 500;
   margin-top: 0;
-  color: #17ffee;
+  color: #17ffee; 
 }
+
+.neonText {
+  color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+}
+
 
 form {
   width: 100%;
@@ -189,6 +204,13 @@ form {
   display: block;
   margin-bottom: .5rem;
   color: var(--form-label-color);
+}
+
+.formError {
+  display: block;
+  margin-top: .5rem;
+  font-size: .85rem;
+  color: var(--error);
 }
 
 input,
@@ -319,6 +341,9 @@ button {
   width: 100%;
 }
 
+.profile_delete-warning {
+  color: var(--danger);
+}
 .credit {
   color: var(--header-footer-text-color);
   text-decoration: none;
