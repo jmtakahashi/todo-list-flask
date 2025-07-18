@@ -123,12 +123,12 @@ const editFormHandler = async (e) => {
 
         if (resp.status === 200) {
           const newTodo = resp.data.todo.todo
-          const complete = resp.data.todo.complete
 
           // remove the <input> field and replace with new text
           e.target.parentElement.children[0].innerText = newTodo
-
           e.target.parentElement.children[0].classList.remove("hidden")
+
+          // hide the input box
           e.target.classList.add("hidden")
 
         }
