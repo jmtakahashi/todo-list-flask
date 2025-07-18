@@ -57,7 +57,6 @@ const deleteHandler = async (e) => {
   e.target.parentElement.appendChild(loaderSpan)
   e.target.remove()
 
-  return
   try {
     const resp = await axios.delete(`/api/todos/${id}`);
 
