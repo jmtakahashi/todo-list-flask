@@ -128,7 +128,7 @@ header {
 
 .sidebar {
   display: none;
-  background: url(/static/images/bakhodirjon-abduraimov-0i_VuYCFais-unsplash.jpg);
+  background: url(/static/images/valentin-beauvais-yVUQlyRlJSw-unsplash.jpg);
   background-position: center center;
   background-size: cover;
   position: relative;
@@ -142,7 +142,7 @@ header {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 @media screen and (min-width: 768px) {
