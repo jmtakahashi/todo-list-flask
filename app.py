@@ -193,7 +193,7 @@ def show_todos():
     todos = []
 
     if CURR_USER_KEY in session:
-        t = Todo.query.order_by("id").all()
+        t = Todo.query.filter_by(user_id=g.user.id).order_by("id").all()
         # format datetime obj
         if len(t) > 0:
             for todo in t:
@@ -275,7 +275,9 @@ def edit_profile():
 def get_todos():
     """Get all todos."""
 
-    todos = Todo.query.all()
+    user_id = request.json.get("user_id")
+
+    todos = Todo.query.filter_by(user_id=user_id).order_by("id").all()
 
     # if no todos found, respond with message
     if len(todos) == 0:
@@ -294,6 +296,7 @@ def add_todo():
 
     # attempt to get our data from the post request
     data = request.json.get("todo")
+    user_id = request.json.get("user_id")
 
     # if the data we need is not in the request, throw an error
     if not data:
@@ -301,7 +304,7 @@ def add_todo():
         return (resp, 400)
 
     # if data is there, try to add to the db
-    new_todo = Todo(todo=data)
+    new_todo = Todo(user_id=user_id, todo=data)
 
     try:
         db.session.add(new_todo)
