@@ -39,8 +39,9 @@
           <td><span class="todo__dateAdded">{{ todo.date_added }}</span></td>
 
           <td>
-            <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
-            <span class="loader"></span>
+            <div class='deleteBtnContainer'>
+              <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
+            </div>
           </td>
         </tr>
         {% endfor %}
