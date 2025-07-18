@@ -7,7 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_cors import CORS
 
-from forms import TodoAddForm, LoginForm, UserAddForm
+from forms import TodoAddForm, LoginForm, UserAddForm, UserEditForm, UserDeleteForm
 from models import db, connect_db, Todo, User
 
 
@@ -202,6 +202,69 @@ def show_todos():
                 todos.append(todo)
 
     return render_template('todos.html', form=form, todos=todos)
+
+
+###############################################################################
+# todos - show todos + add todo - requires auth
+
+@app.route("/profile", methods=["GET", "POST", "DELETE"])
+def edit_profile():
+    """Show/handle the user profile editing page.  Require auth!"""
+
+    if not g.user:
+        flash("Please login!", "danger")
+        return redirect("/login")
+
+    editForm = UserEditForm(obj=g.user)
+    deleteForm = UserDeleteForm()
+
+    if editForm.validate_on_submit():
+        u = User.authenticate(g.user.email, editForm.password.data)
+
+        if u:
+            # update the user with the new data
+            u.username = editForm.username.data
+            u.email = editForm.email.data
+
+            # if user is changing passwords, hash the new pw before commiting
+            if editForm.new_password.data:
+                new_pw = User.hash_password(editForm.new_password.data)
+                u.password = new_pw
+
+            try:
+                db.session.commit()
+
+            except IntegrityError as exc:
+                flash("Email already exists!", "danger")
+                return redirect("/profile")
+
+            flash("Your profile has been updated!", "success")
+            return redirect("/profile")
+
+        flash("Current password incorrect!", "danger")
+        return redirect("/profile")
+
+    if deleteForm.validate_on_submit():
+        u = User.authenticate(g.user.email, deleteForm.password.data)
+
+        if u:
+            try:
+                db.session.delete(u)
+                db.session.commit()
+
+            except:
+                flash("There was an error, please refresh and try again!", "danger")
+                return redirect("/profile")
+
+            do_logout()
+
+            flash("Your profile has been deleted!", "danger")
+            return redirect("/")
+
+        flash("Incorrect password! Your profile has not been deleted!", "danger")
+        return redirect("/profile")
+
+    return render_template("profile.html", editForm=editForm, deleteForm=deleteForm, user=g.user)
 
 
 ###############################################################################
