@@ -12,7 +12,7 @@ from models import db, connect_db, Todo, User
 
 
 app = Flask(__name__)
-cors = CORS()
+cors = CORS(app)
 
 
 # below line necessary to run seed.py (https://stackoverflow.com/a/74364913/7207125)
@@ -275,7 +275,12 @@ def edit_profile():
 def get_todos():
     """Get all todos."""
 
-    user_id = request.json.get("user_id")
+    if CURR_USER_KEY not in session:
+
+        resp = jsonify(message="auth requiree")
+        return (resp, 401)
+
+    user_id = session[CURR_USER_KEY]
 
     todos = Todo.query.filter_by(user_id=user_id).order_by("id").all()
 
@@ -294,9 +299,15 @@ def get_todos():
 def add_todo():
     """Add a todo. Returns the newly added todo."""
 
+    if CURR_USER_KEY not in session:
+
+        resp = jsonify(message="auth requiree")
+        return (resp, 401)
+
+    user_id = session[CURR_USER_KEY]
+
     # attempt to get our data from the post request
     data = request.json.get("todo")
-    user_id = request.json.get("user_id")
 
     # if the data we need is not in the request, throw an error
     if not data:
@@ -326,10 +337,17 @@ def add_todo():
 def get_todo(id):
     """Get a single todo by id."""
 
+    if CURR_USER_KEY not in session:
+
+        resp = jsonify(message="auth requiree")
+        return (resp, 401)
+
+    user_id = session[CURR_USER_KEY]
+
     # get our todo.  if not found, the except block will run
     todo = Todo.query.get(id)
 
-    if todo:
+    if todo.user_id == user_id:
         # serialize the todo, create our resp and return
         data = todo.serialize()
         resp = jsonify(todo=data)
@@ -344,10 +362,17 @@ def get_todo(id):
 def edit_todo(id):
     """Edit a single todo by id. Returns the edited todo."""
 
+    if CURR_USER_KEY not in session:
+
+        resp = jsonify(message="auth requiree")
+        return (resp, 401)
+
+    user_id = session[CURR_USER_KEY]
+
     # get our todo.  if not found, the except block will run
     todo = Todo.query.get(id)
 
-    if todo:
+    if todo.user_id == user_id:
         # update our todo with new data, giving default options if the data
         # doesn't exist in the json of the request
         todo.todo = request.json.get("todo", todo.todo)
@@ -375,9 +400,16 @@ def edit_todo(id):
 def delete_todo(id):
     """Delete a single todo by id."""
 
+    if CURR_USER_KEY not in session:
+
+        resp = jsonify(message="auth requiree")
+        return (resp, 401)
+
+    user_id = session[CURR_USER_KEY]
+
     todo = Todo.query.get(id)
 
-    if todo:
+    if todo.user_id == user_id:
         try:
             db.session.delete(todo)
             db.session.commit()
