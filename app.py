@@ -114,7 +114,7 @@ def signup():
             db.session.commit()
 
         except IntegrityError as exc:
-            flash("Account exists please login!", 'error')
+            flash("Account exists please login.", 'error')
             return redirect('/')
 
         do_login(u)
@@ -157,7 +157,7 @@ def home_page():
             return redirect("/")
 
         # if no errors thrown, send user to /todos with a success msg
-        flash("Login successful!", "success")
+        flash("Login successful.", "success")
         return redirect("/todos")
 
     return render_template('index.html', form=form)
@@ -171,7 +171,7 @@ def show_todos():
     """Show all todos, with the add todo form."""
 
     if CURR_USER_KEY not in session:
-        flash("Please login!", "danger")
+        flash("Please login.", "danger")
         return redirect("/")
 
     form = TodoAddForm()
@@ -186,7 +186,7 @@ def show_todos():
         except IntegrityError as exc:
             flash("Please try adding the todo again.", "error")
 
-        flash("Todo added!", "success")
+        flash("Todo added.", "success")
         return redirect("/todos")
 
     # initialize a var so we can pass it to the template (python scope issue)
@@ -212,7 +212,7 @@ def edit_profile():
     """Show/handle the user profile editing page.  Require auth!"""
 
     if not g.user:
-        flash("Please login!", "danger")
+        flash("Please login.", "danger")
         return redirect("/login")
 
     editForm = UserEditForm(obj=g.user)
@@ -235,13 +235,13 @@ def edit_profile():
                 db.session.commit()
 
             except IntegrityError as exc:
-                flash("Email already exists!", "danger")
+                flash("Email already exists.", "danger")
                 return redirect("/profile")
 
-            flash("Your profile has been updated!", "success")
+            flash("Your profile has been updated.", "success")
             return redirect("/profile")
 
-        flash("Current password incorrect!", "danger")
+        flash("Current password incorrect.", "danger")
         return redirect("/profile")
 
     if deleteForm.validate_on_submit():
@@ -253,15 +253,15 @@ def edit_profile():
                 db.session.commit()
 
             except:
-                flash("There was an error, please refresh and try again!", "danger")
+                flash("There was an error, please refresh and try again.", "danger")
                 return redirect("/profile")
 
             do_logout()
 
-            flash("Your profile has been deleted!", "danger")
+            flash("Your profile has been deleted.", "danger")
             return redirect("/")
 
-        flash("Incorrect password! Your profile has not been deleted!", "danger")
+        flash("Incorrect password. Your profile has not been deleted.", "danger")
         return redirect("/profile")
 
     return render_template("profile.html", editForm=editForm, deleteForm=deleteForm, user=g.user)

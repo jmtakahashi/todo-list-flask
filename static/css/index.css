@@ -67,7 +67,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .logo {
@@ -91,7 +91,7 @@ header {
 }
 
 .fa-sign-out-alt {
-  font-size: 18px
+  font-size: 20px
 }
 
 .mainContainer {
@@ -195,7 +195,7 @@ header {
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 @media screen and (min-width: 767px) {
@@ -215,7 +215,12 @@ footer {
   margin-top: 0;
   font-size: 2.25rem;
   font-weight: normal;
+  text-transform: uppercase;
   color: #17ffee;
+}
+
+#todo-list-title {
+  cursor: pointer;
 }
 
 .cyberpunk {

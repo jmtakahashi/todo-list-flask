@@ -1,5 +1,14 @@
 const todos = document.getElementsByClassName("todo")
 
+const todoListTitle = document.getElementById("todo-list-title")
+const todoListEN = document.getElementById("todo-list-en")
+const todoListJP = document.getElementById("todo-list-jp")
+
+todoListTitle && todoListTitle.addEventListener("click", (e) => {
+  todoListEN.classList.toggle("hidden")
+  todoListJP.classList.toggle("hidden")
+})
+
 const handleClick = (e) => {
   if (e.target.classList.contains("todo__doneBtn")) {
     doneHandler(e)
