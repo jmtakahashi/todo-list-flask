@@ -44,11 +44,20 @@ const doneHandler = async (e) => {
 const deleteHandler = async (e) => {
   e.preventDefault();
 
-  const id = e.target.dataset.id;
+  console.log(e.target)
 
   // our tr will have an id attribute
+  const id = e.target.dataset.id;
   const container = document.getElementById(id);
 
+  
+  const loaderSpan = document.createElement("span")
+  loaderSpan.classList.add("loader")
+    
+  e.target.parentElement.appendChild(loaderSpan)
+  e.target.remove()
+
+  return
   try {
     const resp = await axios.delete(`/api/todos/${id}`);
 
