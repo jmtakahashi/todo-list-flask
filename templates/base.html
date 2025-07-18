@@ -46,26 +46,29 @@
       
       <main class='mainContainer'>
         <section class="main">
-          <div class="flashMessages">
-            {% for category,msg in get_flashed_messages(with_categories=true) %}
-              <span class="flashMessage {{ category }}">{{ msg }}</span>
-            {% endfor %}
-          </div>
-          <div class="mainContentContainer">
-            <div class='mainContent'>
-              {% block pagecontent %}{% endblock %}
+          <div class="logoLarge">GetShitDone</div>
+          <div class="mainInnerContainer">
+            <div class="flashMessages">
+              {% for category,msg in get_flashed_messages(with_categories=true) %}
+                <span class="flashMessage {{ category }}">{{ msg }}</span>
+              {% endfor %}
+            </div>
+            <div class="mainContentContainer">
+              <div class='mainContent'>
+                {% block pagecontent %}{% endblock %}
+              </div>
             </div>
           </div>
         </section>
 
         <section class="sidebar">
-
+          
         </section>
       </main>
 
       <footer>
         <a class="credit" href="https://www.whoisjaytee.com" target="_blank"
-          >WhoIsJaytee.com</a
+          >Who Is Jaytee?</a
         >
       </footer>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
