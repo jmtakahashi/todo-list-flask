@@ -14,7 +14,7 @@ class TodoAddForm(FlaskForm):
 class LoginForm(FlaskForm):
     """Login form."""
 
-    email = EmailField('Email', validators=[
+    email = EmailField('Email', render_kw={"autocomplete": "email"}, validators=[
                        DataRequired('Please enter your email.'), Email()])
     password = PasswordField('Password', validators=[
                              DataRequired('Please enter your password.'), Length(min=6)])
