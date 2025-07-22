@@ -4,7 +4,7 @@
 
 {% block pagecontent %}
   <h2 id='todo-list-title' class='pageTitle'><span id='todo-list-en' class='hidden'>Todo List</span><span id='todo-list-jp'>やることリスト</span></h2>
-  <form id="todoForm" class="todoForm" method="POST">
+  <form id="todo-form" class="todoForm" method="POST">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != 'hidden' %}
 

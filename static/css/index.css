@@ -88,6 +88,9 @@ header {
 .nav-link {
   text-decoration: none;
   color: var(--header-footer-text-color);
+  padding: 0;
+  border: none;
+  cursor: pointer;
 }
 
 .fa-sign-out-alt {
@@ -295,6 +298,7 @@ input {
 
 button {
   padding: 0.75rem 1.5rem;
+  cursor: pointer;
 }
 
 .todoForm {
@@ -376,6 +380,7 @@ button {
   display: block;
   text-decoration: none;
   font-size: .85rem;
+  cursor: pointer;
 }
 .todo__text.complete {
   text-decoration: line-through;

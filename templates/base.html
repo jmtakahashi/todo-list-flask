@@ -30,7 +30,9 @@
                 <a class="nav-link" href="/profile"><i class="fas fa-user-alt"></i></a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+                <form id='logout-form' action="/logout" method='POST'>
+                  <button class="nav-link" type="submit"><i class="fas fa-sign-out-alt"></i></button>
+                </form>
               </li>
             {% else %}
               <li class="nav-item">

@@ -124,9 +124,12 @@ def signup():
     return render_template('signup.html', form=form)
 
 
-@app.route('/logout', methods=["GET"])
+@app.route('/logout', methods=["POST"])
 def logout():
     """Logout from app."""
+
+    if CURR_USER_KEY not in session:
+        return redirect("/")
 
     do_logout()
 

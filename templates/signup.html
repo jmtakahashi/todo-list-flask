@@ -4,7 +4,7 @@
 
 {% block pagecontent %}
   <h2 class='pageTitle'>Create an Account</h2>
-  <form id="ml__login-form" method="POST">
+  <form id="todo-list-signup-form" method="POST">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != 'hidden' %}
 
