@@ -189,23 +189,20 @@ def show_todos():
         flash("Todo added.", "success")
         return redirect("/todos")
 
-    # initialize a var so we can pass it to the template (python scope issue)
-    todos = []
+    # todos = Todo.query.filter_by(user_id=g.user.id).order_by("id").all()
+    todos = g.user.todos
 
-    if CURR_USER_KEY in session:
-        t = Todo.query.filter_by(user_id=g.user.id).order_by("id").all()
-        # format datetime obj
-        if len(t) > 0:
-            for todo in t:
-                formattedDate = todo.date_added.date().strftime("%m.%d.%y")
-                todo.date_added = formattedDate
-                todos.append(todo)
+    # format datetime obj to human readable
+    if len(todos) > 0:
+        for todo in todos:
+            formattedDate = todo.date_added.date().strftime("%m.%d.%y")
+            todo.date_added = formattedDate
 
     return render_template('todos.html', form=form, todos=todos)
 
 
 ###############################################################################
-# todos - show todos + add todo - requires auth
+# user profile - edit + delete profile - requires auth
 
 @app.route("/profile", methods=["GET", "POST", "DELETE"])
 def edit_profile():
@@ -386,7 +383,7 @@ def edit_todo(id):
             return (resp, 400)
 
     else:
-        resp = jsonify(message="todo not found")
+        resp = jsonify(message="not authorized")
         return (resp, 404)
 
     # serialize the todo, create our resp and return
@@ -419,7 +416,7 @@ def delete_todo(id):
             return (resp, 404)
 
     else:
-        resp = jsonify(message="todo not found")
+        resp = jsonify(message="not authorized")
         return (resp, 404)
 
     resp = jsonify(deleted=id)

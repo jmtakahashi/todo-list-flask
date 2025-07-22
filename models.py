@@ -28,6 +28,9 @@ class User(db.Model):
     email = db.Column(db.Text, unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
+    todos = db.relationship(
+        "Todo", backref="user", order_by='Todo.id.asc()')
+
     def __repr__(self):
         return f"<User {self.id} {self.username} {self.email}>"
 
@@ -77,7 +80,7 @@ class Todo(db.Model):
     complete = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
-        return f"<Todo owner={self.user_id} todo={self.todo} date_added={self.date_added} complete={self.complete}>"
+        return f"<Todo id={self.id} owner={self.user_id} todo={self.todo} date_added={self.date_added} complete={self.complete}>"
 
     def serialize(self):
         """Serialze a todo SQLAlchemy obj to dict."""
