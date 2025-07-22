@@ -130,6 +130,7 @@ def logout():
 
     do_logout()
 
+    flash("Log out succesful.", 'success')
     return redirect("/")
 
 
