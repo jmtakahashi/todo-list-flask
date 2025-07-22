@@ -38,14 +38,13 @@ class UserEditForm(FlaskForm):
                            DataRequired('Username cannot be blank.')])
     email = StringField('Email', validators=[
                         DataRequired('Email cannot be blank.'), Email()])
-    new_password = PasswordField('New Password', validators=[
-        DataRequired(), Length(min=6)])
+    new_password = PasswordField('New Password')
     password = PasswordField('Password', validators=[
-        DataRequired('Please enter your password to make changes.'), Length(min=6)])
+        DataRequired('Please enter your password to make changes.')])
 
 
 class UserDeleteForm(FlaskForm):
     """User delete form."""
 
     password = PasswordField('Password', validators=[
-        DataRequired('Account deletion requires your password.'), Length(min=6)])
+        DataRequired('Account deletion requires your password.')])

@@ -413,6 +413,10 @@ button {
   width: 100%;
 }
 
+.profileEditForm {
+  margin-bottom: 2rem;
+}
+
 .profile_delete-warning {
   color: var(--danger);
 }

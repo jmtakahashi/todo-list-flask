@@ -130,7 +130,7 @@ def logout():
 
     do_logout()
 
-    flash("Log out succesful.", 'success')
+    flash("Log out successful.", 'success')
     return redirect("/")
 
 
@@ -203,20 +203,21 @@ def show_todos():
 
 
 ###############################################################################
-# user profile - edit + delete profile - requires auth
+# user profile - edit profile requires auth
 
-@app.route("/profile", methods=["GET", "POST", "DELETE"])
+@app.route("/profile", methods=["GET", "POST"])
 def edit_profile():
     """Show/handle the user profile editing page.  Require auth!"""
 
-    if not g.user:
+    if CURR_USER_KEY not in session:
         flash("Please login.", "danger")
-        return redirect("/login")
+        return redirect("/")
 
     editForm = UserEditForm(obj=g.user)
     deleteForm = UserDeleteForm()
 
     if editForm.validate_on_submit():
+
         u = User.authenticate(g.user.email, editForm.password.data)
 
         if u:
@@ -226,8 +227,16 @@ def edit_profile():
 
             # if user is changing passwords, hash the new pw before commiting
             if editForm.new_password.data:
-                new_pw = User.hash_password(editForm.new_password.data)
-                u.password = new_pw
+                password_valid = (len(editForm.new_password.data) > 5)
+                if password_valid:
+                    new_pw = User.hash_password(editForm.new_password.data)
+                    u.password = new_pw
+                else:
+                    # editForm.new_password.errors = [
+                    #     "Field must be at least 6 characters long."]
+                    flash(
+                        "Password not updated. New password must be at least 6 characters long.", "error")
+                    return redirect("/profile")
 
             try:
                 db.session.commit()
@@ -241,6 +250,22 @@ def edit_profile():
 
         flash("Current password incorrect.", "danger")
         return redirect("/profile")
+
+    return render_template("profile.html", editForm=editForm, deleteForm=deleteForm, user=g.user)
+
+
+###############################################################################
+# user profile - delete profile requires auth
+
+@app.route("/profile/delete", methods=["POST"])
+def delete_profile():
+    """Delete the user profile.  Require auth!"""
+
+    if CURR_USER_KEY not in session:
+        flash("Please login.", "danger")
+        return redirect("/")
+
+    deleteForm = UserDeleteForm()
 
     if deleteForm.validate_on_submit():
         u = User.authenticate(g.user.email, deleteForm.password.data)
@@ -261,8 +286,6 @@ def edit_profile():
 
         flash("Incorrect password. Your profile has not been deleted.", "danger")
         return redirect("/profile")
-
-    return render_template("profile.html", editForm=editForm, deleteForm=deleteForm, user=g.user)
 
 
 ###############################################################################

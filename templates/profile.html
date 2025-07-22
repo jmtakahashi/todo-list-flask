@@ -5,12 +5,12 @@
 {% block pagecontent %}
   <div class="profileEditForm">
     <h2 class='pageTitle'>{{ g.user.username }}'s Profile</h2>
-    <form id="profileForm" class="todoForm" method="POST">
+    <form id="profile-edit-form" action="/profile" method="POST">
       {{ editForm.hidden_tag() }}
       {% for field in editForm if field.widget.input_type != 'hidden' %}
 
       <div class='formItem'>
-         {{ field.label }} {{ field }}
+        {{ field.label }} {{ field }}
         {% for error in field.errors %}
             <span class="formError">{{ error}}</span>
         {% endfor %}
@@ -25,7 +25,7 @@
     <h2 class="pageTitle">Delete Profile</h2>
     <p class="profile_delete-warning">WARNING: Deleting your profile is permanent! Please be be absolutely sure
       you want to delete your profile before clicking the button below!</p>
-    <form id="profile-delete-form" action="/profile" method="POST">
+    <form id="profile-delete-form" action="/profile/delete" method="POST">
       {{ deleteForm.hidden_tag() }}
       {% for field in deleteForm if field.widget.input_type != 'hidden' %}
 

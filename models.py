@@ -29,10 +29,10 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
 
     todos = db.relationship(
-        "Todo", backref="user", order_by='Todo.id.asc()')
+        "Todo", backref="user", order_by='Todo.id.asc()', cascade="all, delete-orphan")
 
     def __repr__(self):
-        return f"<User {self.id} {self.username} {self.email}>"
+        return f"<User id={self.id} username={self.username} email={self.email}>"
 
     @classmethod
     def signup(cls, username, email, password):
@@ -74,7 +74,7 @@ class Todo(db.Model):
     __tablename__ = "todos"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     todo = db.Column(db.Text, nullable=False)
     date_added = db.Column(db.Text, nullable=False, default=datetime.now())
     complete = db.Column(db.Boolean, nullable=False, default=False)
