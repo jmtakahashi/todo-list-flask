@@ -301,7 +301,7 @@ def get_todos():
 
     if CURR_USER_KEY not in session:
 
-        resp = jsonify(message="auth requiree")
+        resp = jsonify(message="auth required")
         return (resp, 401)
 
     user_id = session[CURR_USER_KEY]
@@ -315,7 +315,7 @@ def get_todos():
 
     data = [todo.serialize() for todo in todos]
     resp = jsonify(todos=data)
-    return (resp, 200)
+    return (resp)
 
 
 # add a todo
@@ -325,7 +325,7 @@ def add_todo():
 
     if CURR_USER_KEY not in session:
 
-        resp = jsonify(message="auth requiree")
+        resp = jsonify(message="auth required")
         return (resp, 401)
 
     user_id = session[CURR_USER_KEY]
@@ -347,7 +347,7 @@ def add_todo():
 
     except:
         resp = jsonify(message="todo not created")
-        return (resp, 400)
+        return (resp, 500)
 
     # serialize the todo (which now contains "id" and "complete" status),
     # create our resp and return
@@ -363,7 +363,7 @@ def get_todo(id):
 
     if CURR_USER_KEY not in session:
 
-        resp = jsonify(message="auth requiree")
+        resp = jsonify(message="auth required")
         return (resp, 401)
 
     user_id = session[CURR_USER_KEY]
@@ -388,7 +388,7 @@ def edit_todo(id):
 
     if CURR_USER_KEY not in session:
 
-        resp = jsonify(message="auth requiree")
+        resp = jsonify(message="auth required")
         return (resp, 401)
 
     user_id = session[CURR_USER_KEY]
@@ -407,16 +407,16 @@ def edit_todo(id):
 
         except:
             resp = jsonify(message="an error occured")
-            return (resp, 400)
+            return (resp, 500)
 
     else:
         resp = jsonify(message="not authorized")
-        return (resp, 404)
+        return (resp, 401)
 
     # serialize the todo, create our resp and return
     data = todo.serialize()
     resp = jsonify(todo=data)
-    return (resp, 200)
+    return (resp)
 
 
 # delete a todo route
@@ -426,24 +426,29 @@ def delete_todo(id):
 
     if CURR_USER_KEY not in session:
 
-        resp = jsonify(message="auth requiree")
+        resp = jsonify(message="auth required")
         return (resp, 401)
 
     user_id = session[CURR_USER_KEY]
 
     todo = Todo.query.get(id)
 
-    if todo.user_id == user_id:
-        try:
-            db.session.delete(todo)
-            db.session.commit()
+    if todo:
+        if todo.user_id == user_id:
+            try:
+                db.session.delete(todo)
+                db.session.commit()
 
-        except:
-            resp = jsonify(message="an error occured")
-            return (resp, 404)
+            except:
+                resp = jsonify(message="an error occured")
+                return (resp, 500)
+
+        else:
+            resp = jsonify(message="not authorized")
+            return (resp, 401)
 
     else:
-        resp = jsonify(message="not authorized")
+        resp = jsonify(message="not found")
         return (resp, 404)
 
     resp = jsonify(deleted=id)

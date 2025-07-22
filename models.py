@@ -76,7 +76,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     todo = db.Column(db.Text, nullable=False)
-    date_added = db.Column(db.Text, nullable=False, default=datetime.now())
+    date_added = db.Column(db.DateTime, nullable=False, default=datetime.now())
     complete = db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
