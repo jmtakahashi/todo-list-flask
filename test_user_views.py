@@ -8,7 +8,6 @@ from flask import session
 from app import app, CURR_USER_KEY
 from unittest import TestCase
 
-
 from models import db, User, Todo
 
 
