@@ -199,7 +199,7 @@ def show_todos():
     # format datetime obj to human readable
     if len(todos) > 0:
         for todo in todos:
-            formattedDate = todo.date_added.date().strftime("%m.%d.%y")
+            formattedDate = todo.date_added.strftime("%m.%d.%y")
             todo.date_added = formattedDate
 
     return render_template('todos.html', form=form, todos=todos)
