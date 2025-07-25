@@ -66,11 +66,24 @@ CURR_USER_KEY = "curr_user"
 
 @app.before_request
 def add_user_to_g():
-    """If we're logged in, add curr user to Flask global."""
+    """If we're logged in (session[CURR_USER_KEY] is sent from the client), 
+    add curr user to Flask global."""
 
-    # if there is session["curr_user"] exists then add it to our Flask "g" global
+    # g.user will contain movies as well
+    # we set up the relationship in our model
     if CURR_USER_KEY in session:
-        g.user = User.query.get(session[CURR_USER_KEY])
+        # this check addresses an edge case where the user was deleted
+        # from the database but was still in a session in the browser.
+        #
+        # check that the user data actually exists in the db
+        u = User.query.get(session[CURR_USER_KEY])
+
+        if u:
+            g.user = u
+
+        else:
+            g.user = None
+            do_logout()
 
     else:
         g.user = None
