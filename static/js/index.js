@@ -1,5 +1,8 @@
 const todos = document.getElementsByClassName("todo")
 
+const newTodoInput = document.getElementById("todo")
+const addTodoButton = document.getElementById("add-todo-button")
+
 const todoListTitle = document.getElementById("todo-list-title")
 const todoListEN = document.getElementById("todo-list-en")
 const todoListJP = document.getElementById("todo-list-jp")
@@ -7,6 +10,16 @@ const todoListJP = document.getElementById("todo-list-jp")
 todoListTitle && todoListTitle.addEventListener("click", (e) => {
   todoListEN.classList.toggle("hidden")
   todoListJP.classList.toggle("hidden")
+})
+
+addTodoButton && addTodoButton.addEventListener("click", (e) => {
+  if (newTodoInput.value !== "") {
+    const loaderSpan = document.createElement("span")
+    loaderSpan.classList.add("loader")
+    
+    e.target.innerText = "";
+    e.target.appendChild(loaderSpan)
+  }
 })
 
 const handleClick = (e) => {
