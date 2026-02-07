@@ -3,7 +3,7 @@
 {% block pagetitle %}My Todos{% endblock %}
 
 {% block pagecontent %}
-  <h2 id='todo-list-title' class='pageTitle'><span id='todo-list-en' class='hidden'>Todo List</span><span id='todo-list-jp'>やることリスト</span></h2>
+  <h2 id='todo-list-title' class='pageTitle'><span id='todo-list-en'>Todo List</span><span id='todo-list-jp' hidden>やることリスト</span></h2>
   <form id="todo-form" class="todoForm" method="POST">
     {{ form.hidden_tag() }}
     {% for field in form if field.widget.input_type != 'hidden' %}
@@ -20,32 +20,26 @@
   </form>
 
   {% if todos %}
-    <table id="todoList" class='todoList'>
-      <tbody>
+    <div id="todoList" class='todoList'>
         {% for todo in todos %}
-        <tr id="{{ todo.id }}" class="todo">
-          <td>
-            <label class='completedInputContainer'>
-              <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
-              <span class="checkbox"></span>
-            </label>
-          </td>
+        <div id="{{ todo.id }}" class="todo">
+          <label class='completedInputContainer'>
+            <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
+            <span class="checkbox"></span>
+          </label>
 
-          <td>
+          <div>
             <span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span>
-            <input type="text" class="todo__editTodoInput hidden" name="editedTodo" data-id="{{ todo.id }}"/>
-          </td>
+            <input type="text" class="todo__editTodoInput" name="editedTodo" data-id="{{ todo.id }}" hidden/>
+          </div>
 
-          <td><span class="todo__dateAdded">{{ todo.date_added }}</span></td>
+          <span class="todo__dateAdded">{{ todo.date_added }}</span>
 
-          <td>
-            <div class='deleteBtnContainer'>
-              <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
-            </div>
-          </td>
-        </tr>
+          <div class='deleteBtnContainer'>
+            <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
+          </div>
+        </div>
         {% endfor %}
-      </tbody>
-    </table>
+    </div>
   {% endif %}
 {% endblock %}
