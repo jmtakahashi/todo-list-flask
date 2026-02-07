@@ -21,14 +21,19 @@ cors = CORS(app)
 ###############################################################################
 # config
 
-# Get DB_URI from environ variable (useful for production/testing) or,
+# Get DB_URI from env variable (useful for production/testing) or,
 # if not set there, use development local db.
-if os.environ.get('FLASK_ENV') == "development":
-    app.config['SQLALCHEMY_DATABASE_URI'] = (
-        os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
-else:
-    app.config['SQLALCHEMY_DATABASE_URI'] = (
-        os.environ.get('SUPABASE_DATABASE_URL'))
+# if os.environ.get('FLASK_ENV') == "development":
+#     app.config['SQLALCHEMY_DATABASE_URI'] = (
+#         os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
+# else:
+#     app.config['SQLALCHEMY_DATABASE_URI'] = (
+#         os.environ.get('RENDER_DB_URL'))
+    
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    os.environ.get('DATABASE_URL', 'postgresql:///todo_list') 
+    if os.environ.get('FLASK_ENV') == "development" 
+    else os.environ.get('RENDER_DB_URL'))
 
 # sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -38,7 +43,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 # wtforms secrect key
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 
 # address warning in the browser console
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#samesitesamesite-value
@@ -46,6 +51,9 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', "it's a secret")
 # app.config['SESSION_COOKIE_SECURE'] = 'True'
 
 # toolbar = DebugToolbarExtension(app)
+
+print("FLASK_ENV: ", os.environ.get('FLASK_ENV'))
+print("app.config: ", app.config)
 
 
 ###############################################################################
