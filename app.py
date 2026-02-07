@@ -33,7 +33,7 @@ cors = CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
     os.environ.get('DATABASE_URL', 'postgresql:///todo_list') 
     if os.environ.get('FLASK_ENV') == "development" 
-    else os.environ.get('RENDER_DB_URL'))
+    else os.environ.get('RENDER_DATABASE_URL'))
 
 # sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
