@@ -23,17 +23,17 @@ cors = CORS(app)
 
 # Get DB_URI from env variable (useful for production/testing) or,
 # if not set there, use development local db.
-# if os.environ.get('FLASK_ENV') == "development":
-#     app.config['SQLALCHEMY_DATABASE_URI'] = (
-#         os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
-# else:
-#     app.config['SQLALCHEMY_DATABASE_URI'] = (
-#         os.environ.get('RENDER_DB_URL'))
+if os.environ.get('FLASK_ENV') == "development":
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        os.environ.get('DATABASE_URL', 'postgresql:///todo_list'))
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        os.environ.get('RENDER_DATABASE_URL', 'postgresql:///todo_list'))
     
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///todo_list') 
-    if os.environ.get('FLASK_ENV') == "development" 
-    else os.environ.get('RENDER_DATABASE_URL'))
+# app.config['SQLALCHEMY_DATABASE_URI'] = (
+#     os.environ.get('DATABASE_URL', 'postgresql:///todo_list') 
+#     if os.environ.get('FLASK_ENV') == "development" 
+#     else os.environ.get('RENDER_DATABASE_URL', 'postgresql:///todo_list'))
 
 # sqlalchemy
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
