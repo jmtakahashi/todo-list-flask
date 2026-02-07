@@ -365,7 +365,7 @@ button {
 }
 
 /* Show the checkmark when checked */
-.completedInputContainer input:checked ~ .checkbox:after {
+.completedInputContainer > input:checked ~ .checkbox:after {
   display: block;
 }
 
@@ -400,25 +400,22 @@ button {
   display: none;
 }
 
-.todo__text.complete {
+.completedInputContainer:has(input:checked) + div > .todo__text {
   text-decoration: line-through;
+  opacity: 0.5;
 }
 
 .todo__editTodoInput:focus {
-  outline: none;
+  outline: 1px solid var(--accent-teal);
   border-color: var(--accent-light-purple);
 }
 
 .todo__dateAdded {
-  display: block;
   font-size: .65rem;
 }
 
 .deleteBtnContainer {
-  width: 20px;
-  height: 22px;
   display: flex; 
-  justify-content: center;
   align-items: center;
 }
 
@@ -444,10 +441,6 @@ button {
   color: var(--header-footer-text-color);
   text-decoration: none;
   font-size: .75rem;
-}
-
-.hidden {
-  display: none;
 }
 
 .loader {
