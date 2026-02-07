@@ -276,6 +276,10 @@ input {
   padding: .75rem;
 }
 
+input:focus {
+  outline: 1px solid var(--accent-teal);
+}
+
 ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
     color: var(--accent-dark-teal);
 }
@@ -396,6 +400,10 @@ button {
   cursor: pointer;
 }
 
+.todo__editTodoInput {
+  border-color: var(--form-border-color);
+}
+
 .todo__text[hidden] {
   display: none;
 }
@@ -403,11 +411,6 @@ button {
 .completedInputContainer:has(input:checked) + div > .todo__text {
   text-decoration: line-through;
   opacity: 0.5;
-}
-
-.todo__editTodoInput:focus {
-  outline: 1px solid var(--accent-teal);
-  border-color: var(--accent-light-purple);
 }
 
 .todo__dateAdded {
