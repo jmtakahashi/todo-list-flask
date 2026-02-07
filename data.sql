@@ -8,11 +8,10 @@ CREATE DATABASE todo_list;
 DROP DATABASE IF EXISTS todo_list_test;
 CREATE DATABASE todo_list_test;
 
--- for supabse
--- \c postgres
-
--- for local or other
-\c todo_list
+-- uncomment below for production environment
+-- \c todo_list
+-- uncomment below for development environment
+-- \c todo_list_test
 
 DROP TABLE users;
 DROP TABLE todos;
