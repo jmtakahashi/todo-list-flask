@@ -23,21 +23,26 @@
     <div id="todoList" class='todoList'>
         {% for todo in todos %}
         <div id="{{ todo.id }}" class="todo">
-          <label class='completedInputContainer'>
-            <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
-            <span class="checkbox"></span>
-          </label>
+          <div>
+            <label class='completedInputContainer'>
+              <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
+              <span class="checkbox"></span>
+            </label>
+  
+            <div>
+              <span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span>
+              <input type="text" class="todo__editTodoInput" name="editedTodo" data-id="{{ todo.id }}" hidden/>
+            </div>
+          </div>
 
           <div>
-            <span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span>
-            <input type="text" class="todo__editTodoInput" name="editedTodo" data-id="{{ todo.id }}" hidden/>
-          </div>
+            <span class="todo__dateAdded">{{ todo.date_added }}</span>
 
-          <span class="todo__dateAdded">{{ todo.date_added }}</span>
-
-          <div class='deleteBtnContainer'>
-            <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
+            <div class='deleteBtnContainer'>
+              <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
+            </div>
           </div>
+   
         </div>
         {% endfor %}
     </div>
