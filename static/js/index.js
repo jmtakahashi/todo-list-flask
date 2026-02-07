@@ -8,8 +8,8 @@ const todoListEN = document.getElementById("todo-list-en")
 const todoListJP = document.getElementById("todo-list-jp")
 
 todoListTitle && todoListTitle.addEventListener("click", (e) => {
-  todoListEN.classList.toggle("hidden")
-  todoListJP.classList.toggle("hidden")
+  todoListEN.toggleAttribute("hidden")
+  todoListJP.toggleAttribute("hidden")
 })
 
 addTodoButton && addTodoButton.addEventListener("click", (e) => {
@@ -101,9 +101,9 @@ const editHandler = (e) => {
   const curr_text = e.target.innerText // this will be the text before editing
 
   // remove the current <span> html and show an input element with the todo text pre-populated
-  todoSpan.classList.add("hidden")
+  todoSpan.toggleAttribute('hidden');
   editTodoInput.value = curr_text
-  editTodoInput.classList.remove("hidden")
+  editTodoInput.toggleAttribute('hidden');
 
   editTodoInput.focus();
 
@@ -116,8 +116,8 @@ const editFormHandler = async (e) => {
   // e.target will be our input element
 
   if (e.type === "blur") {
-    e.target.parentElement.children[0].classList.remove("hidden")
-    e.target.classList.add("hidden")
+    e.target.parentElement.children[0].toggleAttribute("hidden")
+    e.target.toggleAttribute('hidden');
 
   } else if (e.type === "keypress") {
     if (e.key === 'Enter') {
@@ -139,10 +139,10 @@ const editFormHandler = async (e) => {
 
           // remove the <input> field and replace with new text
           e.target.parentElement.children[0].innerText = newTodo
-          e.target.parentElement.children[0].classList.remove("hidden")
+          e.target.parentElement.children[0].toggleAttribute('hidden');
 
           // hide the input box
-          e.target.classList.add("hidden")
+          e.target.toggleAttribute('hidden', true);
 
         }
       } catch (e) {
