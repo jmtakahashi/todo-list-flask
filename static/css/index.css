@@ -351,9 +351,9 @@ button {
 /* custom checkbox */
 .checkbox {
   position: relative;
-  display: block;
   height: 20px;
   width: 20px;
+  min-width: 20px;
   background-color: transparent;
   border: 1px solid var(--form-border-color);
 }
@@ -371,10 +371,10 @@ button {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  display: none;
+  display: none; /* hide the checkmark by default */
 }
 
-/* show the checkmark when default checkbox is checked */
+/* when default checkbox is checked show the checkmark */
 .completedInputContainer > input:checked ~ .checkbox:after {
   display: block;
 }
@@ -388,13 +388,12 @@ button {
 /* todo text and input for editing todo should have the same styles, except the input should have a border and the text should not */
 .todo__text, .todo__editTodoInput {
   padding: .40rem;
-  font-size: .85rem;
+  font-size: .65rem;
   border: 1px solid;
   margin: 0;
 }
 
 .todo__text {
-  display: inline-block;
   text-decoration: none;
   border-color: transparent;
   cursor: pointer;
@@ -412,8 +411,14 @@ button {
   font-size: .65rem;
 }
 
+.todo__functionsContainer {
+  display: flex;
+  gap: .65rem;
+}
+
 .todo__functionsContainer > i {
   padding: .25em;
+  min-width: 24px;
   cursor: pointer;
 }
 
