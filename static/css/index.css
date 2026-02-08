@@ -309,6 +309,28 @@ button {
   margin-bottom: 2rem;
 }
 
+.todoForm .formItem {
+  display: flex;
+}
+
+.todoForm input { 
+  border-right: none;
+}
+
+/* remove the default focus outline and replace it with a custom one on the form item container when an input inside it is focused, so that the outline encompasses both the input and the button */
+.todoForm input:focus {
+  outline: none;
+}
+
+.todoForm .formItem:has(input:focus)  {
+  outline: 1px solid var(--accent-teal);
+}
+
+.todoForm button {
+  width: auto;
+  padding: 0.75rem;
+}
+
 .todoList {
   width: 100%;
   border-bottom: none;
