@@ -1,50 +1,66 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block pagetitle %}My Todos{% endblock %} {% block
+pagecontent %}
+<h2 id="todo-list-title" class="pageTitle">
+  <span id="todo-list-en">Todo List</span
+  ><span id="todo-list-jp" hidden>やることリスト</span>
+</h2>
+<form id="todo-form" class="todoForm" method="POST">
+  {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+  'hidden' %}
 
-{% block pagetitle %}My Todos{% endblock %}
-
-{% block pagecontent %}
-  <h2 id='todo-list-title' class='pageTitle'><span id='todo-list-en'>Todo List</span><span id='todo-list-jp' hidden>やることリスト</span></h2>
-  <form id="todo-form" class="todoForm" method="POST">
-    {{ form.hidden_tag() }}
-    {% for field in form if field.widget.input_type != 'hidden' %}
-
-    <div class='formItem'>
-      {{ field }}
-      {% for error in field.errors %}
-        <span class="formError">{{ error}}</span>
-      {% endfor %}
-    </div>
-
+  <div class="formItem">
+    {{ field }} {% for error in field.errors %}
+    <span class="formError">{{ error}}</span>
     {% endfor %}
-    <button id="add-todo-button" type="submit">Add Todo</button>
-  </form>
+  </div>
 
-  {% if todos %}
-    <div id="todoList" class='todoList'>
-        {% for todo in todos %}
-        <div id="{{ todo.id }}" class="todo">
-          <div>
-            <label class='completedInputContainer'>
-              <input name="complete" type="checkbox" class="todo__doneBtn" data-id="{{ todo.id }}" {% if todo.complete %}checked{% endif %} />
-              <span class="checkbox"></span>
-            </label>
-  
-            <div>
-              <span class="todo__text{% if todo.complete %} complete{% endif %}" data-id="{{ todo.id }}">{{ todo.todo }}</span>
-              <input type="text" class="todo__editTodoInput" name="editedTodo" data-id="{{ todo.id }}" hidden/>
-            </div>
-          </div>
+  {% endfor %}
+  <button id="add-todo-button" type="submit">Add Todo</button>
+</form>
 
-          <div>
-            <span class="todo__dateAdded">{{ todo.date_added }}</span>
+{% if todos %}
+<div id="todoList" class="todoList">
+  {% for todo in todos %}
+  <div id="{{ todo.id }}" class="todo">
+    <label class="completedInputContainer">
+      <input
+        name="complete"
+        type="checkbox"
+        class="todo__doneBtn"
+        data-id="{{ todo.id }}"
+        {%
+        if
+        todo.complete
+        %}checked{%
+        endif
+        %}
+        hidden
+      />
+      <span class="checkbox"></span>
+      <span
+        class="todo__text{% if todo.complete %} complete{% endif %}"
+        data-id="{{ todo.id }}"
+        >{{ todo.todo }}</span
+      >
+      <input
+        type="text"
+        class="todo__editTodoInput"
+        name="editedTodo"
+        data-id="{{ todo.id }}"
+        hidden
+      />
+    </label>
 
-            <div class='deleteBtnContainer'>
-              <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
-            </div>
-          </div>
-   
-        </div>
-        {% endfor %}
+    <div>
+      <span class="todo__dateAdded">{{ todo.date_added }}</span>
+      <div class="todo__functionsContainer">
+        <i class="fas fa-pen todo__editBtn" data-id="{{ todo.id }}"></i>
+        <i class="fas fa-check todo_saveBtn" data-id="{{ todo.id }}" hidden></i>
+        <i class="fas fa-trash todo__deleteBtn" data-id="{{ todo.id }}"></i>
+      </div>
+
     </div>
-  {% endif %}
-{% endblock %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endblock %}

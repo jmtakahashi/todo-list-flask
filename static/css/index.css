@@ -325,16 +325,21 @@ button {
   gap: 1rem;
 }
 
-/* containers for the checkbox and text, and date and trash can */
+/* only apply the top border to the first todo item, so that we don't get double borders between items */
+.todo:not(:first-child) {
+  border-top: none;
+}
+
+/* containers for the checkbox and text, and date and function icons */
+.todo > label,
 .todo > div {
   display: flex;
   align-items: center;
-  gap: .85rem;
+  gap: .5rem;
 }
 
-/* Customize input div (the container) */
+/* the label element (which acts as the container for the default checkbox, custom checkbox and todo text) */
 .completedInputContainer {
-  display: inline-block;
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
@@ -343,17 +348,9 @@ button {
   user-select: none;
 }
 
-/* Hide the browser's default checkbox */
-.completedInputContainer input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-/* Create a custom checkbox */
+/* custom checkbox */
 .checkbox {
+  position: relative;
   display: block;
   height: 20px;
   width: 20px;
@@ -361,20 +358,10 @@ button {
   border: 1px solid var(--form-border-color);
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
+/* checkmark/indicator (hidden when not checked) */
 .checkbox:after {
   content: "";
   position: absolute;
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.completedInputContainer > input:checked ~ .checkbox:after {
-  display: block;
-}
-
-/* Style the checkmark/indicator */
-.completedInputContainer .checkbox:after {
   left: 6px;
   top: 2px;
   width: 5px;
@@ -384,8 +371,21 @@ button {
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
+  display: none;
 }
 
+/* show the checkmark when default checkbox is checked */
+.completedInputContainer > input:checked ~ .checkbox:after {
+  display: block;
+}
+
+/* when the default checkbox is checked, apply line-through and opacity to the todo text */
+.completedInputContainer:has(input:checked) > .todo__text {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+/* todo text and input for editing todo should have the same styles, except the input should have a border and the text should not */
 .todo__text, .todo__editTodoInput {
   padding: .40rem;
   font-size: .85rem;
@@ -408,23 +408,17 @@ button {
   display: none;
 }
 
-.completedInputContainer:has(input:checked) + div > .todo__text {
-  text-decoration: line-through;
-  opacity: 0.5;
-}
-
 .todo__dateAdded {
   font-size: .65rem;
 }
 
-.deleteBtnContainer {
-  display: flex; 
-  align-items: center;
+.todo__functionsContainer > i {
+  padding: .25em;
+  cursor: pointer;
 }
 
-.todo__deleteBtn {
-  padding: .25rem;
-  cursor: pointer;
+.todo__functionsContainer > i[hidden] {
+  display: none;
 }
 
 .profileEditForm,
