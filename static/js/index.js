@@ -16,11 +16,13 @@
   // handle the click event for the add todo button (this is not an ajax request)
   const handleAddTodo = async (e) => {
     if (newTodoInput.value !== '') {
+      addTodoButton.disabled = true;
+
       const loaderSpan = document.createElement('span');
       loaderSpan.classList.add('loader');
-
-      e.target.innerText = '';
-      e.target.appendChild(loaderSpan);
+      
+      addTodoButton.querySelector('i').toggleAttribute('hidden');
+      addTodoButton.appendChild(loaderSpan);
     }
   };
 
@@ -281,7 +283,7 @@
     }
   };
 
-  // add click listener to add todo button
+  // add event listener to add todo form
   addTodoButton && addTodoButton.addEventListener('click', handleAddTodo);
 
   // add click event listener to each todo item
