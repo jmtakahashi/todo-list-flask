@@ -315,6 +315,7 @@ button {
 
 .todoForm input { 
   border-right: none;
+  border-radius: 0;
 }
 
 /* remove the default focus outline and replace it with a custom one on the form item container when an input inside it is focused, so that the outline encompasses both the input and the button */
