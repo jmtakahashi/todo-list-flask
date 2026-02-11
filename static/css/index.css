@@ -1,11 +1,10 @@
 @import url(normalize.css);
 
-@font-face { 
-  font-family: "CyberPunk";
+@font-face {
+  font-family: 'CyberPunk';
   font-style: normal;
   font-weight: 400;
-  src: 
-    url(/static/fonts/Ryzes-ax92x.woff2) format("woff2"),
+  src: url(/static/fonts/Ryzes-ax92x.woff2) format('woff2');
 }
 
 /* <weight>: Use a value from 200 to 900
@@ -21,12 +20,12 @@
 
 :root {
   --background-dark: #020314;
-  --background-dark-transparent: rgba(2, 3, 20, .65);
+  --background-dark-transparent: rgba(2, 3, 20, 0.65);
 
   --accent-purple: #6917d0;
   --accent-light-purple: #8632e6;
   --accent-blue: #2d00f7;
-  
+
   --accent-pink: #ff1791;
   --accent-teal: #17ffee;
   --accent-dark-teal: #1dd3b0;
@@ -40,7 +39,7 @@
   --page-title-color: var(--accent-teal);
   --form-label-color: var(--accent-dark-teal);
   --form-input-text-color: var(--accent-teal);
-  --form-border-color:var(--accent-light-purple);
+  --form-border-color: var(--accent-light-purple);
   --header-footer-text-color: var(--accent-pink);
 
   --loader-color: var(--accent-teal);
@@ -51,7 +50,7 @@
 }
 
 body {
-  font-family: "Source Code Pro", monospace;
+  font-family: 'Source Code Pro', monospace;
   font-optical-sizing: auto;
   font-style: normal;
   background-color: var(--background-dark);
@@ -94,7 +93,7 @@ header {
 }
 
 .fa-sign-out-alt {
-  font-size: 20px
+  font-size: 20px;
 }
 
 .mainContainer {
@@ -115,7 +114,7 @@ header {
   bottom: 0;
   width: 100%;
   margin: auto;
-  font-family: "CyberPunk";
+  font-family: 'CyberPunk';
   font-size: clamp(50px, 15vw, 85px);
   text-align: center;
   transform: translateY(10%) scale(1.1);
@@ -139,7 +138,7 @@ header {
 }
 
 .sidebar::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -205,7 +204,6 @@ header {
   .mainContent {
     padding: 2rem;
   }
-  
 }
 
 footer {
@@ -233,14 +231,14 @@ footer {
 .neonText {
   color: #fff;
   text-shadow:
-      0 0 7px #fff,
-      0 0 10px #fff,
-      0 0 21px #fff,
-      0 0 42px #0fa,
-      0 0 82px #0fa,
-      0 0 92px #0fa,
-      0 0 102px #0fa,
-      0 0 151px #0fa;
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
 }
 
 form {
@@ -252,14 +250,14 @@ form {
 
 .formItem label {
   display: block;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   color: var(--form-label-color);
 }
 
 .formError {
   display: block;
-  margin-top: .5rem;
-  font-size: .85rem;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
   color: var(--error);
 }
 
@@ -273,31 +271,37 @@ button {
 }
 
 input {
-  padding: .75rem;
+  padding: 0.75rem;
 }
 
 input:focus {
   outline: 1px solid var(--accent-teal);
 }
 
-::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    color: var(--accent-dark-teal);
+::-webkit-input-placeholder {
+  /* WebKit, Blink, Edge */
+  color: var(--accent-dark-teal);
 }
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-   color: var(--accent-dark-teal);
+:-moz-placeholder {
+  /* Mozilla Firefox 4 to 18 */
+  color: var(--accent-dark-teal);
 }
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-   color: var(--accent-dark-teal);
+::-moz-placeholder {
+  /* Mozilla Firefox 19+ */
+  color: var(--accent-dark-teal);
 }
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-   color: var(--accent-dark-teal);
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--accent-dark-teal);
 }
-::-ms-input-placeholder { /* Microsoft Edge */
-   color: var(--accent-dark-teal);
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: var(--accent-dark-teal);
 }
 
-::placeholder { /* Most modern browsers support this now. */
-   color: var(--accent-dark-teal);
+::placeholder {
+  /* Most modern browsers support this now. */
+  color: var(--accent-dark-teal);
 }
 
 button {
@@ -313,7 +317,7 @@ button {
   display: flex;
 }
 
-.todoForm input { 
+.todoForm input {
   border-right: none;
   border-radius: 0;
   padding: 1rem;
@@ -324,7 +328,7 @@ button {
   outline: none;
 }
 
-.todoForm .formItem:has(input:focus)  {
+.todoForm .formItem:has(input:focus) {
   outline: 1px solid var(--accent-teal);
 }
 
@@ -367,7 +371,7 @@ button {
 .todo > div {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 /* the label element (which acts as the container for the default checkbox, custom checkbox and todo text) */
@@ -392,7 +396,7 @@ button {
 
 /* checkmark/indicator (hidden when not checked) */
 .checkbox:after {
-  content: "";
+  content: '';
   position: absolute;
   left: 6px;
   top: 2px;
@@ -418,9 +422,10 @@ button {
 }
 
 /* todo text and input for editing todo should have the same styles, except the input should have a border and the text should not */
-.todo__text, .todo__editTodoInput {
-  padding: .40rem;
-  font-size: .65rem;
+.todo__text,
+.todo__editTodoInput {
+  padding: 0.4rem;
+  font-size: 1rem;
   border: 1px solid;
   margin: 0;
 }
@@ -440,16 +445,16 @@ button {
 }
 
 .todo__dateAdded {
-  font-size: .65rem;
+  font-size: 0.65rem;
 }
 
 .todo__functionsContainer {
   display: flex;
-  gap: .65rem;
+  gap: 0.65rem;
 }
 
 .todo__functionsContainer > i {
-  padding: .25em;
+  padding: 0.25em;
   min-width: 24px;
   cursor: pointer;
 }
@@ -474,7 +479,7 @@ button {
 .credit {
   color: var(--header-footer-text-color);
   text-decoration: none;
-  font-size: .75rem;
+  font-size: 0.75rem;
 }
 
 .loader {
@@ -492,27 +497,91 @@ button {
 @keyframes mulShdSpin {
   0%,
   100% {
-    box-shadow: 0em -2.6em 0em 0em var(--loader-color), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2), 2.5em 0em 0 0em rgba(23, 255, 238, 0.2), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2), 0em 2.5em 0 0em rgba(23, 255, 238, 0.2), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2), -2.6em 0em 0 0em rgba(23, 255, 238, 0.5), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.7);
+    box-shadow:
+      0em -2.6em 0em 0em var(--loader-color),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.2),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.5),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.7);
   }
   12.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.7), 1.8em -1.8em 0 0em var(--loader-color), 2.5em 0em 0 0em rgba(23, 255, 238, 0.2), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2), 0em 2.5em 0 0em rgba(23, 255, 238, 0.2), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2), -2.6em 0em 0 0em rgba(23, 255, 238, 0.2), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.5);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.7),
+      1.8em -1.8em 0 0em var(--loader-color),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.2),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.5);
   }
   25% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.5), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.7), 2.5em 0em 0 0em var(--loader-color), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2), 0em 2.5em 0 0em rgba(23, 255, 238, 0.2), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2), -2.6em 0em 0 0em rgba(23, 255, 238, 0.2), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.5),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.7),
+      2.5em 0em 0 0em var(--loader-color),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
   }
   37.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.2), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.5), 2.5em 0em 0 0em rgba(23, 255, 238, 0.7), 1.75em 1.75em 0 0em var(--loader-color), 0em 2.5em 0 0em rgba(23, 255, 238, 0.2), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2), -2.6em 0em 0 0em rgba(23, 255, 238, 0.2), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.2),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.5),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.7),
+      1.75em 1.75em 0 0em var(--loader-color),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
   }
   50% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.2), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2), 2.5em 0em 0 0em rgba(23, 255, 238, 0.5), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.7), 0em 2.5em 0 0em var(--loader-color), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2), -2.6em 0em 0 0em rgba(23, 255, 238, 0.2), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.2),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.5),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.7),
+      0em 2.5em 0 0em var(--loader-color),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.2),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
   }
   62.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.2), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2), 2.5em 0em 0 0em rgba(23, 255, 238, 0.2), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.5), 0em 2.5em 0 0em rgba(23, 255, 238, 0.7), -1.8em 1.8em 0 0em var(--loader-color), -2.6em 0em 0 0em rgba(23, 255, 238, 0.2), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.2),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.2),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.5),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.7),
+      -1.8em 1.8em 0 0em var(--loader-color),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
   }
   75% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.2), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2), 2.5em 0em 0 0em rgba(23, 255, 238, 0.2), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2), 0em 2.5em 0 0em rgba(23, 255, 238, 0.5), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.7), -2.6em 0em 0 0em var(--loader-color), -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.2),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.2),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.5),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.7),
+      -2.6em 0em 0 0em var(--loader-color),
+      -1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2);
   }
   87.5% {
-    box-shadow: 0em -2.6em 0em 0em rgba(23, 255, 238, 0.2), 1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2), 2.5em 0em 0 0em rgba(23, 255, 238, 0.2), 1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2), 0em 2.5em 0 0em rgba(23, 255, 238, 0.2), -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.5), -2.6em 0em 0 0em rgba(23, 255, 238, 0.7), -1.8em -1.8em 0 0em var(--loader-color);
+    box-shadow:
+      0em -2.6em 0em 0em rgba(23, 255, 238, 0.2),
+      1.8em -1.8em 0 0em rgba(23, 255, 238, 0.2),
+      2.5em 0em 0 0em rgba(23, 255, 238, 0.2),
+      1.75em 1.75em 0 0em rgba(23, 255, 238, 0.2),
+      0em 2.5em 0 0em rgba(23, 255, 238, 0.2),
+      -1.8em 1.8em 0 0em rgba(23, 255, 238, 0.5),
+      -2.6em 0em 0 0em rgba(23, 255, 238, 0.7),
+      -1.8em -1.8em 0 0em var(--loader-color);
   }
 }
