@@ -16,11 +16,11 @@
   // handle the click event for the add todo button (this is not an ajax request)
   const handleAddTodo = async (e) => {
     if (newTodoInput.value !== '') {
-      addTodoButton.disabled = true;
+      addTodoButton.style.pointerEvents = 'none';
 
       const loaderSpan = document.createElement('span');
       loaderSpan.classList.add('loader');
-      
+
       addTodoButton.querySelector('i').toggleAttribute('hidden');
       addTodoButton.appendChild(loaderSpan);
     }
@@ -68,9 +68,11 @@
         '.todo__functionsContainer',
       );
       const editBtn = todoFunctionsContainer.querySelector('.todo__editBtn');
-      const deleteBtn = todoFunctionsContainer.querySelector('.todo__deleteBtn');
+      const deleteBtn =
+        todoFunctionsContainer.querySelector('.todo__deleteBtn');
       const saveBtn = todoFunctionsContainer.querySelector('.todo__saveBtn');
-      const cancelBtn = todoFunctionsContainer.querySelector('.todo__cancelBtn');
+      const cancelBtn =
+        todoFunctionsContainer.querySelector('.todo__cancelBtn');
 
       // hide the todo__text <span> and show an <input> with the todo text pre-populated
       todoSpan.toggleAttribute('hidden');
@@ -157,8 +159,10 @@
         '.todo__functionsContainer',
       );
       const editBtn = todoFunctionsContainer.querySelector('.todo__editBtn');
-      const deleteBtn = todoFunctionsContainer.querySelector('.todo__deleteBtn');
-      const cancelBtn = todoFunctionsContainer.querySelector('.todo__cancelBtn');
+      const deleteBtn =
+        todoFunctionsContainer.querySelector('.todo__deleteBtn');
+      const cancelBtn =
+        todoFunctionsContainer.querySelector('.todo__cancelBtn');
       const saveBtn = todoFunctionsContainer.querySelector('.todo__saveBtn');
 
       // if the edited todo is the same as the original todo
@@ -241,7 +245,8 @@
         '.todo__functionsContainer',
       );
       const editBtn = todoFunctionsContainer.querySelector('.todo__editBtn');
-      const deleteBtn = todoFunctionsContainer.querySelector('.todo__deleteBtn');
+      const deleteBtn =
+        todoFunctionsContainer.querySelector('.todo__deleteBtn');
 
       const loaderSpan = document.createElement('span');
       loaderSpan.classList.add('loader');
@@ -290,5 +295,4 @@
   for (let todo of todos) {
     todo.addEventListener('click', handleClick);
   }
-
 })();
